@@ -17,6 +17,10 @@ public class NetworkedUser : MonoBehaviour
         if(!view.IsMine)
         {
             Destroy(camera);
+            gameObject.tag = "OtherPlayer";
+        } else
+        {
+            gameObject.tag = "Player";
         }
     }
 

@@ -3,6 +3,7 @@
  * 
  * This is distributed under the MIT Licence (see LICENSE.md for details)
  */
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +32,10 @@ namespace VehicleBehaviour {
         [SerializeField] string jumpInput = "Jump";
         [SerializeField] string driftInput = "Drift";
 	    [SerializeField] string boostInput = "Boost";
-        
+
+        // Networking
+        private PhotonView view;
+
         /* 
          *  Turn input curve: x real input, y value used
          *  My advice (-1, -1) tangent x, (0, 0) tangent 0 and (1, 1) tangent x
@@ -188,6 +192,8 @@ namespace VehicleBehaviour {
                 boostSource.clip = boostClip;
             }
 
+            view = GetComponent<PhotonView>();
+
 		    boost = maxBoost;
 
             _rb = GetComponent<Rigidbody>();
@@ -218,7 +224,7 @@ namespace VehicleBehaviour {
                 em.rateOverTime = handbrake ? 0 : Mathf.Lerp(em.rateOverTime.constant, Mathf.Clamp(150.0f * throttle, 30.0f, 100.0f), 0.1f);
             }
 
-            if (isPlayer && allowBoost) {
+            if (isPlayer && allowBoost && view.IsMine) {
                 boost += Time.deltaTime * boostRegen;
                 if (boost > maxBoost) { boost = maxBoost; }
             }
@@ -230,7 +236,7 @@ namespace VehicleBehaviour {
             speed = transform.InverseTransformDirection(_rb.velocity).z * 3.6f;
 
             // Get all the inputs!
-            if (isPlayer) {
+            if (isPlayer && view.IsMine) {
                 // Accelerate & brake
                 if (throttleInput != "" && throttleInput != null)
                 {
@@ -283,7 +289,7 @@ namespace VehicleBehaviour {
             }
 
             // Jump
-            if (jumping && isPlayer) {
+            if (jumping && isPlayer && view.IsMine) {
                 if (!IsGrounded)
                     return;
                 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,36 +21,46 @@ public class CarController : MonoBehaviour
     [Header("Car Components")]
     public WheelRotator wheelController;
 
+    [Header("Networking")]
+    public PhotonView view;
+
     // Update is called once per frame
     void Update()
     {
-        if(isMovingForward)
-        {
-            wheelController.rotating = true;
-            wheelController.rotationSpeed = currentSpeed * 10;
-            currentSpeed += rateOfAcceleration;
-            currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeedForward);
-            transform.Translate(Vector3.forward * Time.deltaTime * currentSpeed, Space.Self);
-        } else if(isMovingBack)
-        {
-            wheelController.rotating = true;
-            wheelController.rotationSpeed = currentSpeed * 10;
-            currentSpeed -= rateOfReverseAcceleration;
-            currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeedBack, 0);
-            transform.Translate(-Vector3.forward * Time.deltaTime * currentSpeed, Space.Self);
-        } else
-        {
-            if (currentSpeed > 0)
+        //if (view.IsMine)
+        //{
+            if (isMovingForward)
             {
-                currentSpeed--;
+                wheelController.rotating = true;
+                wheelController.rotationSpeed = currentSpeed * 30;
+                currentSpeed += rateOfAcceleration;
                 currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeedForward);
-            } else
-            {
-                currentSpeed++;
-                currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeedBack, 0);
+                transform.Translate(Vector3.forward * Time.deltaTime * currentSpeed, Space.Self);
             }
-            wheelController.rotating = false;
-        }
+            else if (isMovingBack)
+            {
+                wheelController.rotating = true;
+                wheelController.rotationSpeed = currentSpeed * 30;
+                currentSpeed -= rateOfReverseAcceleration;
+                currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeedBack, 0);
+                transform.Translate(-Vector3.forward * Time.deltaTime * currentSpeed, Space.Self);
+            }
+            else
+            {
+                if (currentSpeed > 0)
+                {
+                    currentSpeed--;
+                    currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeedForward);
+                }
+                else
+                {
+                    currentSpeed++;
+                    currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeedBack, 0);
+                }
+                if(currentSpeed == 0)
+                    wheelController.rotating = false;
+            }
+        //}
     }
 
     public bool isMovingForward

@@ -11049,6 +11049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 5894366058713042701}
+  UI: {fileID: 8850409992451960147}
 --- !u!114 &8554421805112438454
 MonoBehaviour:
   m_ObjectHideFlags: 0

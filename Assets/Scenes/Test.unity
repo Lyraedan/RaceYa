@@ -320,7 +320,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &592722042
 GameObject:
@@ -1011,7 +1011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 420108, guid: cc2b9f84f04070441acc55fd0b9f8797, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 420108, guid: cc2b9f84f04070441acc55fd0b9f8797, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1213,6 +1213,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: blockout_and_car
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b4f3875d64a93474e981ea33eb40f50f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7700494545233185382, guid: b4f3875d64a93474e981ea33eb40f50f,
         type: 3}

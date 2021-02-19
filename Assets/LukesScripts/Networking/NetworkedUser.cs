@@ -7,6 +7,7 @@ public class NetworkedUser : MonoBehaviour
 {
 
     public GameObject camera;
+    public GameObject UI;
 
     private PhotonView view;
 
@@ -17,6 +18,7 @@ public class NetworkedUser : MonoBehaviour
         if(!view.IsMine)
         {
             Destroy(camera);
+            Destroy(UI);
             gameObject.tag = "OtherPlayer";
         } else
         {

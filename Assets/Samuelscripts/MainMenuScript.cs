@@ -17,7 +17,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void LoadGame()
     {
-        SceneManager.LoadScene("Test");
+        SceneManager.LoadScene("PregameLobby");
         Debug.Log("the new game button was pressed");
     }
 

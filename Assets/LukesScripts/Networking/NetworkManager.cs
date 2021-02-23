@@ -19,7 +19,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        Connect();
+        //Connect();
+        StartCoroutine(Spawn(new Vector3(0f, 5f, 0f)));
     }
 
     public override void OnConnectedToMaster()
@@ -57,7 +58,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.GameVersion = gameVersion;
             Debug.Log("Connected to server");
         }
-        StartCoroutine(Spawn(new Vector3(0f, 5f, 0f)));
     }
 
     IEnumerator Spawn(Vector3 position)

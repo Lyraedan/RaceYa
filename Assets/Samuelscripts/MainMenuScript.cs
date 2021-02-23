@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuScript : MonoBehaviour
 {
-
+    public GameObject OptionsMenu;
+    public GameObject MainMenu;
 
     public void Quit()
     {
@@ -17,5 +19,11 @@ public class MainMenuScript : MonoBehaviour
     {
         SceneManager.LoadScene("Test");
         Debug.Log("the new game button was pressed");
+    }
+
+    public void Options()
+    {
+        OptionsMenu.SetActive(true);
+        MainMenu.SetActive(false);
     }
 }

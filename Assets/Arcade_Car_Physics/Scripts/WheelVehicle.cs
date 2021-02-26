@@ -35,6 +35,7 @@ namespace VehicleBehaviour {
 
         // Networking
         private PhotonView view;
+        public NetworkedUser user;
 
         /* 
          *  Turn input curve: x real input, y value used
@@ -217,6 +218,9 @@ namespace VehicleBehaviour {
         // Visual feedbacks and boost regen
         void Update()
         {
+            if (!view.IsMine) return;
+            if (user.finished) return;
+
             foreach (ParticleSystem gasParticle in gasParticles)
             {
                 gasParticle.Play();
@@ -224,7 +228,7 @@ namespace VehicleBehaviour {
                 em.rateOverTime = handbrake ? 0 : Mathf.Lerp(em.rateOverTime.constant, Mathf.Clamp(150.0f * throttle, 30.0f, 100.0f), 0.1f);
             }
 
-            if (isPlayer && allowBoost && view.IsMine) {
+            if (isPlayer && allowBoost) {
                 boost += Time.deltaTime * boostRegen;
                 if (boost > maxBoost) { boost = maxBoost; }
             }
@@ -232,11 +236,14 @@ namespace VehicleBehaviour {
         
         // Update everything
         void FixedUpdate () {
+            if (!view.IsMine) return;
+            if (user.finished) return;
+
             // Mesure current speed
             speed = transform.InverseTransformDirection(_rb.velocity).z * 3.6f;
 
             // Get all the inputs!
-            if (isPlayer && view.IsMine) {
+            if (isPlayer) {
                 // Accelerate & brake
                 if (throttleInput != "" && throttleInput != null)
                 {
@@ -289,7 +296,7 @@ namespace VehicleBehaviour {
             }
 
             // Jump
-            if (jumping && isPlayer && view.IsMine) {
+            if (jumping && isPlayer) {
                 if (!IsGrounded)
                     return;
                 

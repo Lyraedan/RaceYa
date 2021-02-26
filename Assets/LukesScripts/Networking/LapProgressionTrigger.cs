@@ -13,7 +13,9 @@ public class LapProgressionTrigger : MonoBehaviour
         {
             if(root.GetComponent<PhotonView>().IsMine)
             {
-                root.GetComponent<NetworkedUser>().currentLapProgression++;
+                NetworkedUser user = root.GetComponent<NetworkedUser>();
+                user.currentLapProgression++;
+                user.progressionCounter.text = $"Progression: {user.currentLapProgression}/{LapTrigger.instance.progressionTriggers.Count}";
                 gameObject.SetActive(false);
             }
         }

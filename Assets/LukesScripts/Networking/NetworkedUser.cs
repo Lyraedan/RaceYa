@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PhotonView))]
 public class NetworkedUser : MonoBehaviour
@@ -9,6 +10,9 @@ public class NetworkedUser : MonoBehaviour
 
     public GameObject camera;
     public GameObject UI;
+
+    public Text lapCounter;
+    public Text progressionCounter;
 
     public int currentLap = 0;
     public int maxLaps = 3;
@@ -62,6 +66,8 @@ public class NetworkedUser : MonoBehaviour
         if (finished)
         {
             Debug.Log($"{userID} has finished the race");
+            lapCounter.text = "Race finished";
+            progressionCounter.text = string.Empty;
         }
     }
 }

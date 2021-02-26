@@ -34,6 +34,8 @@ public class LapTrigger : MonoBehaviour
                 if (!active) return;
 
                 user.NextLap();
+                if(user.currentLap <= user.maxLaps)
+                    user.lapCounter.text = $"Lap: {user.currentLap}/{user.maxLaps}";
                 active = false;
             }
         }

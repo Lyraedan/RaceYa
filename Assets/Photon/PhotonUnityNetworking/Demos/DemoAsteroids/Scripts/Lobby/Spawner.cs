@@ -35,7 +35,7 @@ namespace Photon.Pun.Demo.Asteroids {
             if (assignedSpawn >= spawns.Length)
                 throw new ArgumentException("Assigned spawn can not be >= " + spawns.Length);
 
-            selectedSpawn = spawns[assignedSpawn - 1].transform;
+            selectedSpawn = spawns[assignedSpawn].transform;
         }
     }
 }

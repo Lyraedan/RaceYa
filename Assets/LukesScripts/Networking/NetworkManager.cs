@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Pun.Demo.Asteroids;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,7 +63,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     IEnumerator Spawn(Vector3 position)
     {
+        //yield return new WaitForSeconds(3f);
         yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
-        PhotonNetwork.Instantiate(this.playerObject.name, position, Quaternion.identity, 0);
+        Spawner.instance.SelectSpawn();
+        PhotonNetwork.Instantiate(this.playerObject.name, Spawner.instance.selectedSpawn.position, Quaternion.identity, 0);
     }
 }

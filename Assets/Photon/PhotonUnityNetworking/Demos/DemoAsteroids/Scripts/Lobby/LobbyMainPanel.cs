@@ -1,6 +1,7 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Realtime;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -272,6 +273,9 @@ namespace Photon.Pun.Demo.Asteroids
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
+            int spawnPosition = playerListEntries.ToList().Find(entry => entry.Value.transform.Find("PlayerNameText").GetComponent<Text>().text == PlayerNameInput.text).Key;
+            Spawner.instance.AssignSpawn(spawnPosition);
+            Debug.Log("Assigned spawn to " + spawnPosition);
             PhotonNetwork.LoadLevel("Test");
         }
 

@@ -32,16 +32,18 @@ namespace VehicleBehaviour {
         [SerializeField] string jumpInput = "Jump";
         [SerializeField] string driftInput = "Drift";
 	    [SerializeField] string boostInput = "Boost";
-
-        // Networking
-        private PhotonView view;
-        public NetworkedUser user;
+        public bool jumpEnabled = false;
+        public bool boostEnabled = false;
 
         /* 
          *  Turn input curve: x real input, y value used
          *  My advice (-1, -1) tangent x, (0, 0) tangent 0 and (1, 1) tangent x
          */
         [SerializeField] AnimationCurve turnInputCurve = AnimationCurve.Linear(-1.0f, -1.0f, 1.0f, 1.0f);
+
+        [Header("Networking")]
+        public NetworkedUser user;
+        private PhotonView view;
 
         [Header("Wheels")]
         [SerializeField] WheelCollider[] driveWheel;
@@ -250,13 +252,13 @@ namespace VehicleBehaviour {
                     throttle = GetInput(throttleInput) - GetInput(brakeInput);
                 }
                 // Boost
-                boosting = (GetInput(boostInput) > 0.5f);
+                boosting = (GetInput(boostInput) > 0.5f) && boostEnabled == true;
                 // Turn
                 steering = turnInputCurve.Evaluate(GetInput(turnInput)) * steerAngle;
                 // Dirft
                 drift = GetInput(driftInput) > 0 && _rb.velocity.sqrMagnitude > 100;
                 // Jump
-                jumping = GetInput(jumpInput) != 0;
+                jumping = GetInput(jumpInput) != 0 && jumpEnabled == true;
             }
 
             // Direction

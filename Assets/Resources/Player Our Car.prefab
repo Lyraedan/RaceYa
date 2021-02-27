@@ -10984,8 +10984,8 @@ MonoBehaviour:
   throttleInput: Vertical
   brakeInput: Fire3
   turnInput: Horizontal
-  jumpInput: Jump
-  driftInput: Fire1
+  jumpInput: Fire1
+  driftInput: Jump
   boostInput: Fire2
   user: {fileID: 7663074466739659273}
   turnInputCurve:

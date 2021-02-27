@@ -18,11 +18,17 @@ public class CameraOrbit : MonoBehaviour
     private float x = 0.0f;
     private float y = 0.0f;
 
+    private float previousX, previousY;
+
     void Start()
     {
         var angles = transform.eulerAngles;
         x = angles.y;
         y = angles.x;
+
+        angles = Camera.main.transform.eulerAngles;
+        previousX = angles.x;
+        previousY = angles.x;
     }
 
     void LateUpdate()
@@ -36,7 +42,15 @@ public class CameraOrbit : MonoBehaviour
                 x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
                 y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
                 test = y;
+                y = ClampAngle(y, yMinLimit, yMaxLimit);
             }
+            else
+            {
+                var angle = target.eulerAngles;
+                x = angle.y;
+                y = angle.x + 19f;
+            }
+
             distance += -(Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime) * zoomRate * Mathf.Abs(distance);
             if (distance < 2.5f)
             {
@@ -48,12 +62,10 @@ public class CameraOrbit : MonoBehaviour
             }
 
 
-            y = ClampAngle(y, yMinLimit, yMaxLimit);
-
             //Debug.Log("y: "+y+" test: "+test);
 
             if (y == yMinLimit || test == yMinLimit)
-        {
+            {
                 // This is to allow the camera to slide across the bottom if the player is too low in the y
                 distance += -(Input.GetAxis("Mouse Y") * Time.deltaTime) * 10 * Mathf.Abs(distance);
             }
@@ -64,6 +76,7 @@ public class CameraOrbit : MonoBehaviour
             //Debug.Log("Distance: "+distance);
             transform.rotation = rotation;
             transform.position = position;
+
         }
     }
 
@@ -75,4 +88,5 @@ public class CameraOrbit : MonoBehaviour
             angle -= 360;
         return Mathf.Clamp(angle, min, max);
     }
+
 }

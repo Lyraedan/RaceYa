@@ -21019,7 +21019,7 @@ GameObject:
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -21030,13 +21030,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3651928251546971365}
-  m_LocalRotation: {x: 0.16865571, y: -0, z: -0, w: 0.9856751}
-  m_LocalPosition: {x: -0.06, y: 3.4503078, z: -5.778628}
-  m_LocalScale: {x: 0.83333325, y: 0.8333333, z: 0.8333333}
+  m_LocalRotation: {x: 0.16504757, y: 0, z: 0, w: 0.9862857}
+  m_LocalPosition: {x: -0.06, y: 3.4, z: -5.7}
+  m_LocalScale: {x: 0.8333332, y: 0.8333332, z: 0.8333332}
   m_Children: []
   m_Father: {fileID: 3656630961879851493}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 19.419, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 19, y: 0, z: 0}
 --- !u!20 &3651928251546971360
 Camera:
   m_ObjectHideFlags: 0

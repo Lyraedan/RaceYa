@@ -2537,7 +2537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPlayers: 10
   gameVersion: 0.1
-  playerObject: {fileID: 5893293911739230419, guid: d8be3edfab06b9e4cb2df16f24955ed3,
+  playerObject: {fileID: 3651170530505919291, guid: 9a394c25f87680d409be86742a7d29aa,
     type: 3}
 --- !u!4 &564521580
 Transform:

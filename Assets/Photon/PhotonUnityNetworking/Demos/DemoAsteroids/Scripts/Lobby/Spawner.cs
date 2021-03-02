@@ -12,7 +12,6 @@ namespace Photon.Pun.Demo.Asteroids
     {
         public static Spawner instance;
 
-        public int assignedSpawn = 0;
         public Transform selectedSpawn;
 
         private void Awake()
@@ -28,22 +27,11 @@ namespace Photon.Pun.Demo.Asteroids
             DontDestroyOnLoad(this);
         }
 
-        public void AssignSpawn(int spawn) => assignedSpawn = spawn;
-
         public void SelectSpawn()
         {
-            Player[] sorted = PhotonNetwork.PlayerList;
-            Array.Sort(sorted, (userA, userB) => string.Compare(userA.NickName, userB.NickName));
-            int index = Array.IndexOf(sorted, sorted.ToList().Find(player => player.NickName.Equals(PhotonNetwork.LocalPlayer.NickName)));
-            AssignSpawn(index);
-
-            if (assignedSpawn < 0)
-                throw new ArgumentException("Assigned spawn can not be < 0");
             GameObject[] spawns = GameObject.FindGameObjectsWithTag("Spawn");
-            if (assignedSpawn >= spawns.Length)
-                throw new ArgumentException("Assigned spawn can not be >= " + spawns.Length);
-
-            foreach(GameObject s in spawns)
+            int index = Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.PlayerList.ToList().Find(player => player.NickName.Equals(PhotonNetwork.LocalPlayer.NickName)));
+            foreach (GameObject s in spawns)
             {
                 if (!s.GetComponent<Spawn>())
                 {
@@ -52,9 +40,10 @@ namespace Photon.Pun.Demo.Asteroids
                 else
                 {
                     Spawn sp = s.GetComponent<Spawn>();
-                    if (sp.id == assignedSpawn)
+                    if (sp.id == index)
                     {
                         selectedSpawn = s.transform;
+                        Debug.Log("Selected spawn " + sp.id);
                         break;
                     }
                 }

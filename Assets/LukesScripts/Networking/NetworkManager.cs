@@ -65,6 +65,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         //yield return new WaitForSeconds(3f);
         yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        foreach(Player p in PhotonNetwork.PlayerList)
+        {
+            Debug.Log("Player: " + p.NickName);
+        }
         Spawner.instance.SelectSpawn();
         playerObject = PhotonNetwork.Instantiate(this.playerObject.name, Spawner.instance.selectedSpawn.position, Quaternion.identity, 0);
         playerObject.transform.Rotate(new Vector3(0, 90, 0));

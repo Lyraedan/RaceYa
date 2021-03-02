@@ -32,15 +32,18 @@ namespace VehicleBehaviour {
         [SerializeField] string jumpInput = "Jump";
         [SerializeField] string driftInput = "Drift";
 	    [SerializeField] string boostInput = "Boost";
-
-        // Networking
-        private PhotonView view;
+        public bool jumpEnabled = false;
+        public bool boostEnabled = false;
 
         /* 
          *  Turn input curve: x real input, y value used
          *  My advice (-1, -1) tangent x, (0, 0) tangent 0 and (1, 1) tangent x
          */
         [SerializeField] AnimationCurve turnInputCurve = AnimationCurve.Linear(-1.0f, -1.0f, 1.0f, 1.0f);
+
+        [Header("Networking")]
+        public NetworkedUser user;
+        private PhotonView view;
 
         [Header("Wheels")]
         [SerializeField] WheelCollider[] driveWheel;
@@ -217,6 +220,9 @@ namespace VehicleBehaviour {
         // Visual feedbacks and boost regen
         void Update()
         {
+            if (!view.IsMine) return;
+            if (user.finished) return;
+
             foreach (ParticleSystem gasParticle in gasParticles)
             {
                 gasParticle.Play();
@@ -224,7 +230,7 @@ namespace VehicleBehaviour {
                 em.rateOverTime = handbrake ? 0 : Mathf.Lerp(em.rateOverTime.constant, Mathf.Clamp(150.0f * throttle, 30.0f, 100.0f), 0.1f);
             }
 
-            if (isPlayer && allowBoost && view.IsMine) {
+            if (isPlayer && allowBoost) {
                 boost += Time.deltaTime * boostRegen;
                 if (boost > maxBoost) { boost = maxBoost; }
             }
@@ -232,24 +238,27 @@ namespace VehicleBehaviour {
         
         // Update everything
         void FixedUpdate () {
+            if (!view.IsMine) return;
+            if (user.finished) return;
+
             // Mesure current speed
             speed = transform.InverseTransformDirection(_rb.velocity).z * 3.6f;
 
             // Get all the inputs!
-            if (isPlayer && view.IsMine) {
+            if (isPlayer) {
                 // Accelerate & brake
                 if (throttleInput != "" && throttleInput != null)
                 {
                     throttle = GetInput(throttleInput) - GetInput(brakeInput);
                 }
                 // Boost
-                boosting = (GetInput(boostInput) > 0.5f);
+                boosting = (GetInput(boostInput) > 0.5f) && boostEnabled == true;
                 // Turn
                 steering = turnInputCurve.Evaluate(GetInput(turnInput)) * steerAngle;
                 // Dirft
                 drift = GetInput(driftInput) > 0 && _rb.velocity.sqrMagnitude > 100;
                 // Jump
-                jumping = GetInput(jumpInput) != 0;
+                jumping = GetInput(jumpInput) != 0 && jumpEnabled == true;
             }
 
             // Direction
@@ -289,7 +298,7 @@ namespace VehicleBehaviour {
             }
 
             // Jump
-            if (jumping && isPlayer && view.IsMine) {
+            if (jumping && isPlayer) {
                 if (!IsGrounded)
                     return;
                 

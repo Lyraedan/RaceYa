@@ -810,7 +810,7 @@ GameObject:
   - component: {fileID: 6383049025544189844}
   - component: {fileID: 3465984860433386440}
   m_Layer: 0
-  m_Name: pCube8
+  m_Name: CarBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11352,6 +11352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 3651928251546971365}
   UI: {fileID: 1851057688934665915}
+  carCollider: {fileID: 3465984860433386440}
   lapCounter: {fileID: 3012341200221206381}
   progressionCounter: {fileID: 1091326615103731204}
   worldspaceCanvas: {fileID: 3890713749274466999}

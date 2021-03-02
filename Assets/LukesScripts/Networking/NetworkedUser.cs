@@ -11,6 +11,7 @@ public class NetworkedUser : MonoBehaviour
 
     public GameObject camera;
     public GameObject UI;
+    public Collider carCollider;
 
     public Text lapCounter;
     public Text progressionCounter;

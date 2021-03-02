@@ -1,5 +1,6 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -51,7 +52,7 @@ namespace Photon.Pun.Demo.Asteroids
             cachedRoomList = new Dictionary<string, RoomInfo>();
             roomListEntries = new Dictionary<string, GameObject>();
             
-            PlayerNameInput.text = "Player " + Random.Range(1000, 10000);
+            PlayerNameInput.text = "Player " + UnityEngine.Random.Range(1000, 10000);
         }
 
         #endregion
@@ -97,7 +98,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            string roomName = "Room " + Random.Range(1000, 10000);
+            string roomName = "Room " + UnityEngine.Random.Range(1000, 10000);
 
             RoomOptions options = new RoomOptions {MaxPlayers = 8};
 
@@ -220,7 +221,7 @@ namespace Photon.Pun.Demo.Asteroids
         public void OnCreateRoomButtonClicked()
         {
             string roomName = RoomNameInputField.text;
-            roomName = (roomName.Equals(string.Empty)) ? "Room " + Random.Range(1000, 10000) : roomName;
+            roomName = (roomName.Equals(string.Empty)) ? "Room " + UnityEngine.Random.Range(1000, 10000) : roomName;
 
             byte maxPlayers;
             byte.TryParse(MaxPlayersInputField.text, out maxPlayers);
@@ -273,9 +274,10 @@ namespace Photon.Pun.Demo.Asteroids
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
 
-            int spawnPosition = playerListEntries.ToList().Find(entry => entry.Value.transform.Find("PlayerNameText").GetComponent<Text>().text == PlayerNameInput.text).Key;
-            Spawner.instance.AssignSpawn(spawnPosition);
-            Debug.Log("Assigned spawn to " + spawnPosition);
+            //int spawnPosition = playerListEntries.ToList().Find(entry => entry.Value.transform.Find("PlayerNameText").GetComponent<Text>().text == PlayerNameInput.text).Key;
+            int index = Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.PlayerList.ToList().Find(player => player.NickName.Equals(PhotonNetwork.LocalPlayer.NickName)));
+            Spawner.instance.AssignSpawn(index);
+            Debug.Log("Assigned spawn to " + index);
             PhotonNetwork.LoadLevel("Test");
         }
 

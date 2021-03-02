@@ -56,10 +56,10 @@ public class NetworkedUser : MonoBehaviour
 
     public void LoadCustomization()
     {
-        StartCoroutine(WaitForEveryone());
+        StartCoroutine(WaitTillReady());
     }
 
-    IEnumerator WaitForEveryone()
+    IEnumerator WaitTillReady()
     {
         yield return new WaitUntil(() => view != null);
         view.RPC("RPC_LoadCustomization", RpcTarget.All, CarColour.instance.bodyColour.r, CarColour.instance.bodyColour.g, CarColour.instance.bodyColour.b,

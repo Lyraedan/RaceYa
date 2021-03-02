@@ -38,6 +38,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public Button StartGameButton;
         public GameObject PlayerListEntryPrefab;
+        public Transform listRoot;
 
         private Dictionary<string, RoomInfo> cachedRoomList;
         private Dictionary<string, GameObject> roomListEntries;
@@ -121,7 +122,7 @@ namespace Photon.Pun.Demo.Asteroids
             foreach (Player p in PhotonNetwork.PlayerList)
             {
                 GameObject entry = Instantiate(PlayerListEntryPrefab);
-                entry.transform.SetParent(InsideRoomPanel.transform);
+                entry.transform.SetParent(listRoot);
                 entry.transform.localScale = Vector3.one;
                 entry.GetComponent<PlayerListEntry>().Initialize(p.ActorNumber, p.NickName);
 
@@ -159,7 +160,7 @@ namespace Photon.Pun.Demo.Asteroids
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             GameObject entry = Instantiate(PlayerListEntryPrefab);
-            entry.transform.SetParent(InsideRoomPanel.transform);
+            entry.transform.SetParent(listRoot);
             entry.transform.localScale = Vector3.one;
             entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
@@ -207,6 +208,11 @@ namespace Photon.Pun.Demo.Asteroids
         #endregion
 
         #region UI CALLBACKS
+
+        public void ToggleGameObject(GameObject obj)
+        {
+            obj.SetActive(!obj.activeSelf);
+        }
 
         public void OnBackButtonClicked()
         {

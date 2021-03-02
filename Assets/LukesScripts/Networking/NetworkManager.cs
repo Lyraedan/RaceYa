@@ -20,6 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
         Spawner.instance.SelectSpawn();
         playerObject = PhotonNetwork.Instantiate(this.playerObject.name, Spawner.instance.selectedSpawn.position, Quaternion.identity, 0);
+        playerObject.GetComponent<NetworkedUser>().LoadCustomization();
         playerObject.transform.Rotate(new Vector3(0, 90, 0));
     }
 }

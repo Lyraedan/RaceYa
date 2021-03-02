@@ -27,7 +27,13 @@ public class NetworkedUser : MonoBehaviour
 
     public string userID => PhotonNetwork.LocalPlayer.NickName;
 
+    public Color carColour = Color.green;
+    public Color characterColour = Color.red;
+
     private PhotonView view;
+
+    public List<Renderer> bodyRenderers = new List<Renderer>();
+    public Renderer character;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +52,28 @@ public class NetworkedUser : MonoBehaviour
         worldspaceCanvas.worldCamera = Camera.main;
         gameObject.name = "Player " + view.Owner.NickName;
         nametag.text = view.Owner.NickName;
+    }
+
+    public void LoadCustomization()
+    {
+        StartCoroutine(WaitForEveryone());
+    }
+
+    IEnumerator WaitForEveryone()
+    {
+        yield return new WaitUntil(() => view != null);
+        view.RPC("RPC_LoadCustomization", RpcTarget.All, CarColour.instance.bodyColour.r, CarColour.instance.bodyColour.g, CarColour.instance.bodyColour.b,
+                                                         CarColour.instance.characterColour.r, CarColour.instance.characterColour.g, CarColour.instance.characterColour.b);
+    }
+
+    [PunRPC]
+    public void RPC_LoadCustomization(float br, float bg, float bb, float cr, float cg, float cb)
+    {
+        foreach (Renderer renderer in bodyRenderers)
+        {
+            renderer.material.color = new Color(br, bg, bb);
+        }
+        character.material.color = new Color(cr, cg, cb);
     }
 
     private void Update()

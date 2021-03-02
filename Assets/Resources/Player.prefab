@@ -11021,7 +11021,8 @@ MonoBehaviour:
   jumpInput: Jump
   driftInput: Fire1
   boostInput: Fire2
-  user: {fileID: 664855398900842977}
+  jumpEnabled: 0
+  boostEnabled: 0
   turnInputCurve:
     serializedVersion: 2
     m_Curve:
@@ -11055,6 +11056,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  user: {fileID: 664855398900842977}
   driveWheel:
   - {fileID: 6036365623289190653}
   - {fileID: 6036094125452355999}
@@ -11383,6 +11385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 5894366058713042701}
   UI: {fileID: 8850409992451960147}
+  carCollider: {fileID: 0}
   lapCounter: {fileID: 5381594342104962181}
   progressionCounter: {fileID: 7802367676825834988}
   worldspaceCanvas: {fileID: 6240907561498179935}

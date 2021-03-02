@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // I had to put it in the namespace because namespaces are dumb :) - Luke
-namespace Photon.Pun.Demo.Asteroids {
+namespace Photon.Pun.Demo.Asteroids
+{
     public class Spawner : MonoBehaviour
     {
         public static Spawner instance;

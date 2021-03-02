@@ -36,7 +36,23 @@ namespace Photon.Pun.Demo.Asteroids
             if (assignedSpawn >= spawns.Length)
                 throw new ArgumentException("Assigned spawn can not be >= " + spawns.Length);
 
-            selectedSpawn = spawns[assignedSpawn].transform;
+            foreach(GameObject s in spawns)
+            {
+                if (!s.GetComponent<Spawn>())
+                {
+                    Debug.LogError("Spawn does not have spawn script!");
+                }
+                else
+                {
+                    Spawn sp = s.GetComponent<Spawn>();
+                    if (sp.id == assignedSpawn)
+                    {
+                        selectedSpawn = s.transform;
+                        break;
+                    }
+                }
+            }
+
         }
     }
 }

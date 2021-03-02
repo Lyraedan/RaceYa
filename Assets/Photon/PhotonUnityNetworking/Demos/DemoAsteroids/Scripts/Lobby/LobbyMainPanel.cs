@@ -273,13 +273,6 @@ namespace Photon.Pun.Demo.Asteroids
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-
-            //int spawnPosition = playerListEntries.ToList().Find(entry => entry.Value.transform.Find("PlayerNameText").GetComponent<Text>().text == PlayerNameInput.text).Key;
-            Player[] sorted = PhotonNetwork.PlayerList;
-            Array.Sort(sorted, (userA, userB) => string.Compare(userA.NickName, userB.NickName));
-            int index = Array.IndexOf(sorted, sorted.ToList().Find(player => player.NickName.Equals(PlayerNameInput.text)));
-            Spawner.instance.AssignSpawn(index);
-            Debug.Log("Assigned spawn to " + index);
             PhotonNetwork.LoadLevel("Test");
         }
 

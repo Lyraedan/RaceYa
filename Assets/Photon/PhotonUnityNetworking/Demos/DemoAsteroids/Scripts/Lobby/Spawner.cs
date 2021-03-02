@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // I had to put it in the namespace because namespaces are dumb :) - Luke
@@ -30,6 +32,11 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void SelectSpawn()
         {
+            Player[] sorted = PhotonNetwork.PlayerList;
+            Array.Sort(sorted, (userA, userB) => string.Compare(userA.NickName, userB.NickName));
+            int index = Array.IndexOf(sorted, sorted.ToList().Find(player => player.NickName.Equals(PhotonNetwork.LocalPlayer.NickName)));
+            AssignSpawn(index);
+
             if (assignedSpawn < 0)
                 throw new ArgumentException("Assigned spawn can not be < 0");
             GameObject[] spawns = GameObject.FindGameObjectsWithTag("Spawn");

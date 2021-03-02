@@ -887,7 +887,7 @@ MeshCollider:
   m_GameObject: {fileID: 3113874694286020595}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -10918,6 +10918,7 @@ GameObject:
   - component: {fileID: 3651928250873373467}
   - component: {fileID: 3651928250873373464}
   - component: {fileID: 7663074466739659273}
+  - component: {fileID: 4421308509189364218}
   m_Layer: 9
   m_Name: Player Our Car
   m_TagString: Untagged
@@ -10987,7 +10988,8 @@ MonoBehaviour:
   jumpInput: Fire1
   driftInput: Jump
   boostInput: Fire2
-  user: {fileID: 7663074466739659273}
+  jumpEnabled: 0
+  boostEnabled: 0
   turnInputCurve:
     serializedVersion: 2
     m_Curve:
@@ -11021,6 +11023,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  user: {fileID: 7663074466739659273}
   driveWheel:
   - {fileID: 3505987831268277013}
   - {fileID: 3505555839093475959}
@@ -11356,6 +11359,19 @@ MonoBehaviour:
   currentLap: 1
   maxLaps: 3
   currentLapProgression: 0
+--- !u!65 &4421308509189364218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3651170530505919291}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 2}
+  m_Center: {x: 0, y: 0.5, z: 0.2}
 --- !u!1 &3651205960661897203
 GameObject:
   m_ObjectHideFlags: 0

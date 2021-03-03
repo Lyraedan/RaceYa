@@ -22,6 +22,15 @@ public class LapTrigger : MonoBehaviour
             Destroy(this);
     }
 
+    private void Start()
+    {
+        // Auto assign the progression id's in corrolation to the order in the list
+        for(int i = 0; i < progressionTriggers.Count; i++)
+        {
+            progressionTriggers[i].progressionID = i;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         GameObject root = other.transform.root.gameObject;

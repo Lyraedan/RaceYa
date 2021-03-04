@@ -273,6 +273,11 @@ namespace Photon.Pun.Demo.Asteroids
 
         #endregion
 
+        public void ChangeGameObject(GameObject obj)
+        {
+            obj.SetActive(!obj.activeSelf);
+        }
+
         private bool CheckPlayersReady()
         {
             if (PhotonNetwork.PlayerList.Length <= 1)

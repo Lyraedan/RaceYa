@@ -38,6 +38,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public Button StartGameButton;
         public GameObject PlayerListEntryPrefab;
+        public Transform listRoot;
 
         private Dictionary<string, RoomInfo> cachedRoomList;
         private Dictionary<string, GameObject> roomListEntries;
@@ -121,7 +122,7 @@ namespace Photon.Pun.Demo.Asteroids
             foreach (Player p in PhotonNetwork.PlayerList)
             {
                 GameObject entry = Instantiate(PlayerListEntryPrefab);
-                entry.transform.SetParent(InsideRoomPanel.transform);
+                entry.transform.SetParent(listRoot);
                 entry.transform.localScale = Vector3.one;
                 entry.GetComponent<PlayerListEntry>().Initialize(p.ActorNumber, p.NickName);
 
@@ -141,6 +142,7 @@ namespace Photon.Pun.Demo.Asteroids
                 {AsteroidsGame.PLAYER_LOADED_LEVEL, false}
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            Spawner.instance.lobbySize = PhotonNetwork.PlayerList.Length;
         }
 
         public override void OnLeftRoom()
@@ -152,6 +154,7 @@ namespace Photon.Pun.Demo.Asteroids
                 Destroy(entry.gameObject);
             }
 
+            Spawner.instance.lobbySize = 0;
             playerListEntries.Clear();
             playerListEntries = null;
         }
@@ -159,13 +162,14 @@ namespace Photon.Pun.Demo.Asteroids
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             GameObject entry = Instantiate(PlayerListEntryPrefab);
-            entry.transform.SetParent(InsideRoomPanel.transform);
+            entry.transform.SetParent(listRoot);
             entry.transform.localScale = Vector3.one;
             entry.GetComponent<PlayerListEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
             playerListEntries.Add(newPlayer.ActorNumber, entry);
 
             StartGameButton.gameObject.SetActive(CheckPlayersReady());
+            Spawner.instance.lobbySize = PhotonNetwork.PlayerList.Length;
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -174,6 +178,7 @@ namespace Photon.Pun.Demo.Asteroids
             playerListEntries.Remove(otherPlayer.ActorNumber);
 
             StartGameButton.gameObject.SetActive(CheckPlayersReady());
+            Spawner.instance.lobbySize = PhotonNetwork.PlayerList.Length;
         }
 
         public override void OnMasterClientSwitched(Player newMasterClient)
@@ -207,6 +212,11 @@ namespace Photon.Pun.Demo.Asteroids
         #endregion
 
         #region UI CALLBACKS
+
+        public void ToggleGameObject(GameObject obj)
+        {
+            obj.SetActive(!obj.activeSelf);
+        }
 
         public void OnBackButtonClicked()
         {

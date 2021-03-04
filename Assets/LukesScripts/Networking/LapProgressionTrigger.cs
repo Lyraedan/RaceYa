@@ -6,6 +6,8 @@ using UnityEngine;
 public class LapProgressionTrigger : MonoBehaviour
 {
 
+    public int progressionID { get; set; } = -1;
+
     private void OnTriggerEnter(Collider other)
     {
         GameObject root = other.transform.root.gameObject;
@@ -14,8 +16,7 @@ public class LapProgressionTrigger : MonoBehaviour
             if(root.GetComponent<PhotonView>().IsMine)
             {
                 NetworkedUser user = root.GetComponent<NetworkedUser>();
-                user.currentLapProgression++;
-                user.progressionCounter.text = $"Progression: {user.currentLapProgression}/{LapTrigger.instance.progressionTriggers.Count}";
+                user.ProgressLap();
                 gameObject.SetActive(false);
             }
         }

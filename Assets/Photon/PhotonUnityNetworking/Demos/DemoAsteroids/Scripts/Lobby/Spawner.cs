@@ -11,6 +11,7 @@ namespace Photon.Pun.Demo.Asteroids
     public class Spawner : MonoBehaviour
     {
         public static Spawner instance;
+        public int lobbySize = 0;
 
         public Transform selectedSpawn;
 

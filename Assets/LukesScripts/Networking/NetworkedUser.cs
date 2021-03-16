@@ -48,20 +48,10 @@ public class NetworkedUser : MonoBehaviour
             Destroy(camera);
             Destroy(UI);
             gameObject.tag = "OtherPlayer";
-            /*foreach(Transform t in transform)
-            {
-                t.tag = "OtherPlayer";
-            }*/
         }
         else
         {
             gameObject.tag = "Player";
-            /*
-            foreach (Transform t in transform)
-            {
-                t.tag = "Player";
-            }
-            */
             view.RPC("RPC_LoadCustomization", RpcTarget.All, CarColour.instance.bodyColour.r, CarColour.instance.bodyColour.g, CarColour.instance.bodyColour.b,
                                                              CarColour.instance.characterColour.r, CarColour.instance.characterColour.g, CarColour.instance.characterColour.b);
         }

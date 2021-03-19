@@ -20,4 +20,6 @@ public class MenuButton : MonoBehaviour
 
         toggled = !toggled;
     }
+
+    public void Straighten() => transform.rotation = Quaternion.identity;
 }

@@ -6,6 +6,7 @@ public class RespawnScript : MonoBehaviour
 {
     [SerializeField] private Transform respawnPoint;
     public bool showGizmo = true;
+    public bool drawLines = false;
 
     void OnTriggerEnter(Collider collision)
     {
@@ -45,7 +46,7 @@ public class RespawnScript : MonoBehaviour
                 Gizmos.matrix = transform.localToWorldMatrix;
                 Gizmos.color = new Color(128, 128, 0, 180);
                 Gizmos.DrawCube(hitbox.center, hitbox.size);
-                if (respawnPoint != null)
+                if (respawnPoint != null && drawLines)
                 {
                     Gizmos.color = Color.red;
                     Gizmos.DrawLine(hitbox.center, respawnPoint.position);

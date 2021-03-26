@@ -10,6 +10,9 @@ public class Optionsmenuscript : MonoBehaviour
     public GameObject OptionsMenu;
     public GameObject MainMenu;
     public Dropdown Resolution;
+    public Dropdown textureDropdown;
+    public Dropdown qualityDropdown;
+    public Dropdown aaDropdown;
 
     private void Start()
     {
@@ -38,6 +41,16 @@ public class Optionsmenuscript : MonoBehaviour
 
     }
 
+    public void SetAntiAliasing(int aaIndex)
+    {
+        QualitySettings.antiAliasing = aaIndex;
+        qualityDropdown.value = 6;
+    }
+    public void SetTextureQuality(int textureIndex)
+    {
+        QualitySettings.masterTextureLimit = textureIndex;
+        qualityDropdown.value = 6;
+    }
     public void SetResolution (int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];

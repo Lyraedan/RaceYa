@@ -49,7 +49,7 @@ public class RespawnScript : MonoBehaviour
                 if (respawnPoint != null && drawLines)
                 {
                     Gizmos.color = Color.red;
-                    Gizmos.DrawLine(hitbox.center, respawnPoint.position);
+                    Gizmos.DrawLine(transform.position + hitbox.center, respawnPoint.position);
                 }
             }
         }

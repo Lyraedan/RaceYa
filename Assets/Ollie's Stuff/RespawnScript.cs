@@ -45,6 +45,11 @@ public class RespawnScript : MonoBehaviour
                 Gizmos.matrix = transform.localToWorldMatrix;
                 Gizmos.color = new Color(128, 128, 0, 180);
                 Gizmos.DrawCube(hitbox.center, hitbox.size);
+                if (respawnPoint != null)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawLine(hitbox.center, respawnPoint.position);
+                }
             }
         }
     }

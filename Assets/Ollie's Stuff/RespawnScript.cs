@@ -8,17 +8,24 @@ public class RespawnScript : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("OtherPlayer"))
+        //collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("OtherPlayer")
+        if (collision.gameObject.transform.root.gameObject.CompareTag("Player") || collision.gameObject.transform.root.gameObject.CompareTag("OtherPlayer"))
         {
             Debug.Log(collision);
-            collision.gameObject.transform.position = respawnPoint.transform.position;
+            collision.gameObject.transform.root.position = respawnPoint.transform.position;
             if(collision.attachedRigidbody)
             {
-                collision.attachedRigidbody.useGravity = false;
-                collision.attachedRigidbody.isKinematic = true;
-                collision.attachedRigidbody.useGravity = true;
-                collision.attachedRigidbody.isKinematic = false;
+                StartCoroutine(PlaceBack(collision));
             }
         }
+    }
+
+    IEnumerator PlaceBack(Collider collision)
+    {
+        collision.attachedRigidbody.useGravity = false;
+        collision.attachedRigidbody.isKinematic = true;
+        yield return new WaitForSeconds(0.1f);
+        collision.attachedRigidbody.useGravity = true;
+        collision.attachedRigidbody.isKinematic = false;
     }
 }

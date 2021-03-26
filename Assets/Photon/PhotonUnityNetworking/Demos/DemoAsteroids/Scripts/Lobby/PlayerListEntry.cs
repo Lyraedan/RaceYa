@@ -50,17 +50,22 @@ namespace Photon.Pun.Demo.Asteroids
 
                 PlayerReadyButton.onClick.AddListener(() =>
                 {
-                    isPlayerReady = !isPlayerReady;
-                    SetPlayerReady(isPlayerReady);
-
-                    Hashtable props = new Hashtable() {{AsteroidsGame.PLAYER_READY, isPlayerReady}};
-                    PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-                    if (PhotonNetwork.IsMasterClient)
-                    {
-                        FindObjectOfType<LobbyMainPanel>().LocalPlayerPropertiesUpdated();
-                    }
+                    ReadyUp();
                 });
+            }
+        }
+
+        public void ReadyUp()
+        {
+            isPlayerReady = !isPlayerReady;
+            SetPlayerReady(isPlayerReady);
+
+            Hashtable props = new Hashtable() { { AsteroidsGame.PLAYER_READY, isPlayerReady } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                FindObjectOfType<LobbyMainPanel>().LocalPlayerPropertiesUpdated();
             }
         }
 

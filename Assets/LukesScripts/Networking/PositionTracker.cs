@@ -50,7 +50,9 @@ public class PositionTracker : MonoBehaviourPunCallbacks
                 int theirProgression = user.currentLapProgression;
                 int theirLap = user.currentLap;
 
-                bool increasePosition = distance < theirDistance || theirProgression > myProgression || theirLap > myLap;
+                bool increasePosition = (theirDistance < distance && theirLap == myLap && theirProgression == myProgression) ||
+                                        (theirProgression > myProgression && theirLap == myLap)
+                                        || theirLap > myLap;
 
                 Debug.Log("Their distance " + theirDistance + " | " + distance);
                 Debug.Log("Their progression " + theirProgression + " | " + myProgression);

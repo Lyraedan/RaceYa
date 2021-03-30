@@ -45,6 +45,12 @@ public class RespawnScript : MonoBehaviour
                     Gizmos.matrix = Matrix4x4.identity;
                     Gizmos.color = Color.red;
                     Gizmos.DrawLine(transform.position, respawnPoint.position);
+
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawLine(respawnPoint.position, respawnPoint.position + respawnPoint.forward * 3);
+
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawSphere(respawnPoint.position + respawnPoint.forward * 3, 0.25f);
                 }
             }
         }

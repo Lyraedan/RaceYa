@@ -15,6 +15,7 @@ public class RespawnScript : MonoBehaviour
         {
             Debug.Log(collision);
             collision.gameObject.transform.root.position = respawnPoint.transform.position;
+            collision.gameObject.transform.root.rotation = respawnPoint.transform.rotation;
             if (collision.attachedRigidbody)
             {
                 StartCoroutine(PlaceBack(collision));

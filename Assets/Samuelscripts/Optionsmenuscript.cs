@@ -44,12 +44,13 @@ public class Optionsmenuscript : MonoBehaviour
     public void SetAntiAliasing(int aaIndex)
     {
         QualitySettings.antiAliasing = aaIndex;
-        qualityDropdown.value = 6;
+        //qualityDropdown.value = 6;
     }
     public void SetTextureQuality(int textureIndex)
     {
-        QualitySettings.masterTextureLimit = textureIndex;
-        qualityDropdown.value = 6;
+        //for some reason removing the useless int textureIndex from above breaks this so please leave it in - unless you can fix the issue
+        QualitySettings.masterTextureLimit = textureDropdown.value;
+        //qualityDropdown.value = 6;
     }
     public void SetResolution (int resolutionIndex)
     {
@@ -62,4 +63,9 @@ public class Optionsmenuscript : MonoBehaviour
         OptionsMenu.SetActive(false);
         MainMenu.SetActive(true);
     }
+    public void DebugButton()
+    {
+        Debug.Log("texture quality is " + QualitySettings.masterTextureLimit);
+        Debug.Log(textureDropdown.value);
+    }    
 }

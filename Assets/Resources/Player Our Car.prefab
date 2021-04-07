@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 3607847118265591913}
-  maxspeed: 260
+  maxspeed: 180
   minangle: 0
   maxangle: -190.03
   arrow: {fileID: 73105433065597381}
@@ -21844,7 +21844,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 97.261, y: 64.074}
+  m_AnchoredPosition: {x: 105, y: 64.074}
   m_SizeDelta: {x: 194.52136, y: 128.1481}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5780942753248250409

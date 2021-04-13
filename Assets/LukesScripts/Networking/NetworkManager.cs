@@ -9,6 +9,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
 
     public GameObject playerObject;
+    public int spawnedPlayers = 0;
 
     void Start()
     {
@@ -21,5 +22,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Spawner.instance.SelectSpawn();
         playerObject = PhotonNetwork.Instantiate(this.playerObject.name, Spawner.instance.selectedSpawn.position, Quaternion.identity, 0);
         playerObject.transform.Rotate(new Vector3(0, 90, 0));
+        playerObject.GetComponent<Rigidbody>().isKinematic = true;
+        spawnedPlayers++;
+        if (spawnedPlayers == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            yield return new WaitForSeconds(4);
+            playerObject.GetComponent<Rigidbody>().isKinematic = false;
+        }
     }
 }

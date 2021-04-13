@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class Pause : MonoBehaviour
 {
     bool paused;
+    public GameObject PauseMenu;
+    public GameObject OptionsMenu;
 
     public bool Paused { get => paused; set => paused = value; }
 
@@ -24,27 +26,26 @@ public class Pause : MonoBehaviour
         paused = !paused;
         if (paused)
         {
-            Time.timeScale = 0;
-            transform.GetChild(0).gameObject.SetActive(true);
+            //Time.timeScale = 0;
+            PauseMenu.SetActive(true);
             Debug.Log("paused");
         }
 
         else
         {
-            Time.timeScale = 1;
-            transform.GetChild(0).gameObject.SetActive(false);
+            //Time.timeScale = 1;
+            PauseMenu.SetActive(false);
             Debug.Log("unpaused");
         }
     }
-    public void Quit()
+    public void OptionsButton()
     {
-        Application.Quit();
-        Debug.Log("quit button was pressed");
+        OptionsMenu.SetActive(true);
+        PauseMenu.SetActive(false);
     }
-
     public void MainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("ReworkedMainMenu");
         Debug.Log("the main menu button was pressed");
     }
 }

@@ -25,7 +25,10 @@ public class NetworkedUser : MonoBehaviour
     public int currentLap = 0;
     public int maxLaps = 3;
     public int currentLapProgression = 0;
+    // Has the user finished the race
     public bool finished { get; set; } = false;
+    // Has the race started
+    public bool started { get; set; } = false;
 
     public string userID => PhotonNetwork.LocalPlayer.NickName;
 

@@ -31,7 +31,7 @@ public class Timer : MonoBehaviour
         yield return new WaitForSeconds(1);
         timer.sprite = timerGo;
 
-        foreach (NetworkedUser user in (NetworkedUser[]) FindObjectsOfType(typeof(NetworkedUser)) {
+        foreach (NetworkedUser user in (NetworkedUser[]) FindObjectsOfType(typeof(NetworkedUser))) {
             user.started = true;
         }
         yield return new WaitForSeconds(.1f);

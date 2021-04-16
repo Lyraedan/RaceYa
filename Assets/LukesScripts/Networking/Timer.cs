@@ -15,6 +15,11 @@ public class Timer : MonoBehaviour
     public Sprite timerOne;
     public Sprite timerGo;
 
+    public void Start()
+    {
+        StartTimer();
+    }
+
     public void StartTimer()
     {
         StartCoroutine(Countdown());

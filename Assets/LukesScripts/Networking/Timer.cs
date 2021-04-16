@@ -39,7 +39,7 @@ public class Timer : MonoBehaviour
         foreach (NetworkedUser user in (NetworkedUser[]) FindObjectsOfType(typeof(NetworkedUser))) {
             user.started = true;
         }
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(1f);
         timer.gameObject.SetActive(false);
     }
 

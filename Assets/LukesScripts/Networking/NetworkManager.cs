@@ -21,5 +21,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Spawner.instance.SelectSpawn();
         playerObject = PhotonNetwork.Instantiate(this.playerObject.name, Spawner.instance.selectedSpawn.position, Quaternion.identity, 0);
         playerObject.transform.Rotate(new Vector3(0, 90, 0));
+        playerObject.GetComponent<NetworkedUser>().started = false;
     }
 }

@@ -63,6 +63,10 @@ public class Optionsmenuscript : MonoBehaviour
         OptionsMenu.SetActive(false);
         MainMenu.SetActive(true);
     }
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+    }
     public void DebugButton()
     {
         Debug.Log("texture quality is " + QualitySettings.masterTextureLimit);

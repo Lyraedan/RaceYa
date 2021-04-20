@@ -221,6 +221,7 @@ namespace VehicleBehaviour {
         void Update()
         {
             if (!view.IsMine) return;
+            if (!user.started) return;
             if (user.finished) return;
 
             foreach (ParticleSystem gasParticle in gasParticles)
@@ -239,6 +240,7 @@ namespace VehicleBehaviour {
         // Update everything
         void FixedUpdate () {
             if (!view.IsMine) return;
+            if (!user.started) return;
             if (user.finished) return;
 
             // Mesure current speed

@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174367e175762fb48ba55d6171e99990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 3906758720170662429, guid: 97c087cc0385a4442aaf6c3d5a0ddf35, type: 3}
+  mesh: {fileID: 41452644828994231, guid: 40b963c096272a1419bafbf517afd3d8, type: 3}
   material: {fileID: 2100000, guid: 7d91274cc4a876a439f75445704f421b, type: 2}
   physicMaterial: {fileID: 0}
   translation: {x: 0, y: 0, z: 0}

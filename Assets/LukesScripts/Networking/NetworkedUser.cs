@@ -166,6 +166,7 @@ public class NetworkedUser : MonoBehaviour
                 {
                     gameObject.transform.position = placement.gameObject.transform.position;
                     gameObject.transform.rotation = placement.gameObject.transform.rotation;
+                    body.isKinematic = true;
                     cam.enabled = false;
                     UI.SetActive(false);
                     cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();

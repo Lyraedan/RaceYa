@@ -10,13 +10,14 @@ using UnityEngine.UI;
 public class NetworkedUser : MonoBehaviour
 {
 
-    public GameObject camera;
+    public Camera cam;
     public GameObject UI;
     public Collider carCollider;
 
     public Text lapCounter;
     public Text progressionCounter;
     public Text positionCounter;
+    public Rigidbody body;
 
     [Header("Nametag")]
     public Canvas worldspaceCanvas;
@@ -48,7 +49,7 @@ public class NetworkedUser : MonoBehaviour
         view = GetComponent<PhotonView>();
         if (!view.IsMine)
         {
-            Destroy(camera);
+            Destroy(cam);
             Destroy(UI);
             gameObject.tag = "OtherPlayer";
         }
@@ -106,7 +107,7 @@ public class NetworkedUser : MonoBehaviour
 
     private void Update()
     {
-        worldspaceCanvas.transform.LookAt(Camera.main.transform);
+        worldspaceCanvas.transform.LookAt(cam.transform.position);
         worldspaceCanvas.transform.Rotate(new Vector3(0, 180, 0));
         worldspaceCanvas.gameObject.SetActive(Vector3.Distance(transform.position, worldspaceCanvas.transform.position) < 3);
 
@@ -156,6 +157,21 @@ public class NetworkedUser : MonoBehaviour
             Debug.Log($"{userID} has finished the race");
             lapCounter.text = "Race finished";
             progressionCounter.text = string.Empty;
+
+            // Teleport the user to their podeum position after finishing
+            body.velocity = Vector3.zero;
+            foreach(FinishedPosition placement in FindObjectsOfType<FinishedPosition>())
+            {
+                if(placement.id == PositionTracker.instance.yourPosition)
+                {
+                    gameObject.transform.position = placement.gameObject.transform.position;
+                    gameObject.transform.rotation = placement.gameObject.transform.rotation;
+                    cam.enabled = false;
+                    UI.SetActive(false);
+                    cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
+                    cam.enabled = true;
+                }
+            }
         }
     }
 }

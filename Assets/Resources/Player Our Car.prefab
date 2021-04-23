@@ -11519,12 +11519,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3074eafd05f6a404da4fa77b7782343d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 3651928251546971365}
+  cam: {fileID: 3651928251546971360}
   UI: {fileID: 1851057688934665915}
   carCollider: {fileID: 3465984860433386440}
   lapCounter: {fileID: 3012341200221206381}
   progressionCounter: {fileID: 1091326615103731204}
   positionCounter: {fileID: 2070686469809140667}
+  body: {fileID: 3607847118265591913}
   worldspaceCanvas: {fileID: 3890713749274466999}
   nametag: {fileID: 4819590841717344267}
   currentLap: 1

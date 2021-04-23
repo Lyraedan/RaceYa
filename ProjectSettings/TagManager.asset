@@ -6,6 +6,7 @@ TagManager:
   tags:
   - OtherPlayer
   - Spawn
+  - EndCamera
   layers:
   - Default
   - TransparentFX

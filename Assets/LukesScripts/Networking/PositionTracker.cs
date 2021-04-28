@@ -56,7 +56,7 @@ public class PositionTracker : MonoBehaviourPunCallbacks
 
                 bool increasePosition = false;
 
-                bool theyAreAheadOfMe = theirDistance > distance;
+                bool theyAreAheadOfMe = theirDistance < distance;
                 bool theyAreALapAhead = theirLap > myLap;
                 bool theyAreProgressedMore = theirProgression > myProgression;
 

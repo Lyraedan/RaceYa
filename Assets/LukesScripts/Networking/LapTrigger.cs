@@ -62,12 +62,18 @@ public class LapTrigger : MonoBehaviour
                     case 3:
                         audioSource.clip = lapThree;
                         break;
+                    case 4:
+                        audioSource.clip = null;
+                        break;
                     default:
                         audioSource.clip = lapOne;
                         break;
                 }
-                audioSource.loop = true;
-                audioSource.Play();
+                if (audioSource.clip != null)
+                {
+                    audioSource.loop = true;
+                    audioSource.Play();
+                }
                 if (user.currentLap <= user.maxLaps)
                     user.lapCounter.text = $"Lap: {user.currentLap}/{user.maxLaps}";
                 active = false;

@@ -269,4 +269,9 @@ public class NetworkedUser : MonoBehaviour
         spectatingIndex = playerIndex;
         cam.enabled = true;
     }
+
+    public bool IsMine()
+    {
+        return view.IsMine;
+    }
 }

@@ -15,6 +15,8 @@ public class Timer : MonoBehaviour
     public Sprite timerOne;
     public Sprite timerGo;
 
+    public AudioSource sound;
+
     public void Start()
     {
         StartTimer();
@@ -28,6 +30,7 @@ public class Timer : MonoBehaviour
     IEnumerator Countdown()
     {
         yield return new WaitUntil(() => PhotonNetwork.PlayerList.Length >= Spawner.instance.lobbySize);
+        sound.Play();
         timer.sprite = timerThree;
         yield return new WaitForSeconds(1);
         timer.sprite = timerTwo;

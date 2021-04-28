@@ -100,7 +100,8 @@ public class CarController : MonoBehaviour
             speedMph *= -1f;
         }
 
-        speed.text = $"{Mathf.RoundToInt(speedKph)}";
+        if(speed != null)
+            speed.text = $"{Mathf.RoundToInt(speedKph)}";
 
         if (Mathf.Abs(setTorque) <= 0f) rb.velocity *= 0.998f;
         if (speedKph > maxSpeed && dot > 0) rb.velocity *= 0.99f;

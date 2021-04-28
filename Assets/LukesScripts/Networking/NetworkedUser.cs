@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Pun.Demo.Asteroids;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,6 +27,7 @@ public class NetworkedUser : MonoBehaviour
     public int currentLap = 0;
     public int maxLaps = 3;
     public int currentLapProgression = 0;
+    public int nextProgressionPoint = 1;
     // Has the user finished the race
     public bool finished { get; set; } = false;
     // Has the race started
@@ -95,6 +97,14 @@ public class NetworkedUser : MonoBehaviour
         return Mathf.Round(Vector3.Distance(progressionPoint, gameObject.transform.position));
     }
 
+    [Obsolete]
+    public float DistanceToProgressionPoint(int id)
+    {
+        int index = id % LapTrigger.instance.progressionTriggers.Count;
+        var point = LapTrigger.instance.progressionTriggers[index];
+        return Mathf.Round(Vector3.Distance(point.transform.position, gameObject.transform.position));
+    }
+
     /// <summary>
     /// Get this users next progression point (Loop to 0 if you hit the max limit)
     /// </summary>
@@ -124,7 +134,8 @@ public class NetworkedUser : MonoBehaviour
     public void RPC_ProgressLap()
     {
         currentLapProgression++;
-        if(view.IsMine)
+        nextProgressionPoint++;
+        if (view.IsMine)
             progressionCounter.text = $"Progression: {currentLapProgression}/{LapTrigger.instance.progressionTriggers.Count}";
     }
 
@@ -150,8 +161,10 @@ public class NetworkedUser : MonoBehaviour
             {
                 progression.gameObject.SetActive(true);
             }
-            currentLapProgression = 0;
         }
+        currentLapProgression = 0;
+        nextProgressionPoint = 1;
+
         if (finished)
         {
             Debug.Log($"{userID} has finished the race");

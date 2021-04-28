@@ -28,6 +28,8 @@ public class NetworkedUser : MonoBehaviour
     public int maxLaps = 3;
     public int currentLapProgression = 0;
     public int nextProgressionPoint = 1;
+    public bool spectating = false;
+    public int spectatingIndex = 0;
     // Has the user finished the race
     public bool finished { get; set; } = false;
     // Has the race started
@@ -125,7 +127,25 @@ public class NetworkedUser : MonoBehaviour
         worldspaceCanvas.gameObject.SetActive(Vector3.Distance(transform.position, worldspaceCanvas.transform.position) < 3);
 
         if (view.IsMine)
+        {
             positionCounter.text = $"Pos: {PositionTracker.instance.yourPosition}/{PhotonNetwork.PlayerList.Length}";
+
+            if(spectating)
+            {
+                if(Input.GetKeyDown(KeyCode.A))
+                {
+                    var players = FindObjectsOfType<NetworkedUser>();
+                    spectatingIndex--;
+                    Spectate(spectatingIndex % players.Length);
+                }
+                else if(Input.GetKeyDown(KeyCode.D))
+                {
+                    var players = FindObjectsOfType<NetworkedUser>();
+                    spectatingIndex++;
+                    Spectate(spectatingIndex % players.Length);
+                }
+            }
+        }
     }
 
     public void ProgressLap()
@@ -153,8 +173,12 @@ public class NetworkedUser : MonoBehaviour
     [PunRPC]
     public void IncreaseLapCounter()
     {
-        if (finished) return;
-
+        if (finished)
+        {
+            if(view.IsMine)
+                SpectateOrPodium();
+            return;
+        }
         currentLap++;
         finished = currentLap > maxLaps;
         if(view.IsMine)
@@ -190,12 +214,58 @@ public class NetworkedUser : MonoBehaviour
                         gameObject.transform.rotation = placement.gameObject.transform.rotation;
                         body.isKinematic = true;
                         cam.enabled = false;
-                        UI.SetActive(false);
-                        cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
-                        cam.enabled = true;
+                        SpectateOrPodium();
                     }
                 }
             }
         }
+    }
+
+    void SpectateOrPodium()
+    {
+        if (!spectating)
+        {
+            UI.SetActive(false);
+        }
+
+        bool everyoneHasFinished = true;
+        var players = FindObjectsOfType<NetworkedUser>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (!players[i].finished)
+                everyoneHasFinished = false;
+        }
+
+        if (everyoneHasFinished)
+        {
+            cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
+            cam.enabled = true;
+        }
+        else
+        {
+            if (spectating)
+                return;
+
+            int index = UnityEngine.Random.Range(0, players.Length);
+            while (players[index].finished)
+            {
+                index = UnityEngine.Random.Range(0, players.Length);
+            }
+            Spectate(index);
+            spectating = true;
+        }
+    }
+
+    void Spectate(int playerIndex)
+    {
+        cam.enabled = false;
+        var players = FindObjectsOfType<NetworkedUser>();
+        while (players[playerIndex % players.Length].finished)
+        {
+            playerIndex++;
+        }
+        cam = players[playerIndex % players.Length].cam;
+        spectatingIndex = playerIndex;
+        cam.enabled = true;
     }
 }

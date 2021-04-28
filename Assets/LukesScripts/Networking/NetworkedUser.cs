@@ -38,6 +38,9 @@ public class NetworkedUser : MonoBehaviour
     public Color carColour = Color.green;
     public Color characterColour = Color.red;
 
+    public AudioSource audioSource;
+    public AudioClip finishedSound;
+
     private PhotonView view;
 
     public List<Renderer> bodyRenderers = new List<Renderer>();
@@ -167,23 +170,30 @@ public class NetworkedUser : MonoBehaviour
 
         if (finished)
         {
-            Debug.Log($"{userID} has finished the race");
-            lapCounter.text = "Race finished";
-            progressionCounter.text = string.Empty;
-
-            // Teleport the user to their podeum position after finishing
-            body.velocity = Vector3.zero;
-            foreach(FinishedPosition placement in FindObjectsOfType<FinishedPosition>())
+            if(view.IsMine)
             {
-                if(placement.id == PositionTracker.instance.yourPosition)
+                Debug.Log($"{userID} has finished the race");
+                lapCounter.text = "Race finished";
+                progressionCounter.text = string.Empty;
+
+                audioSource.clip = finishedSound;
+                audioSource.loop = true;
+                audioSource.Play();
+
+                // Teleport the user to their podeum position after finishing
+                body.velocity = Vector3.zero;
+                foreach (FinishedPosition placement in FindObjectsOfType<FinishedPosition>())
                 {
-                    gameObject.transform.position = placement.gameObject.transform.position;
-                    gameObject.transform.rotation = placement.gameObject.transform.rotation;
-                    body.isKinematic = true;
-                    cam.enabled = false;
-                    UI.SetActive(false);
-                    cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
-                    cam.enabled = true;
+                    if (placement.id == PositionTracker.instance.yourPosition)
+                    {
+                        gameObject.transform.position = placement.gameObject.transform.position;
+                        gameObject.transform.rotation = placement.gameObject.transform.rotation;
+                        body.isKinematic = true;
+                        cam.enabled = false;
+                        UI.SetActive(false);
+                        cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
+                        cam.enabled = true;
+                    }
                 }
             }
         }

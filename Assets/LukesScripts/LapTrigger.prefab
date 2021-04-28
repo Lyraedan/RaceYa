@@ -96,9 +96,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 0
   audioSource: {fileID: 6741361947431718579}
-  lapOne: {fileID: 8300000, guid: f2f12917d56de5d4e9aedf1455680669, type: 3}
-  lapTwo: {fileID: 8300000, guid: 5d2653f47226b2948967bb859419dbe8, type: 3}
-  lapThree: {fileID: 8300000, guid: c9eb36f43102d824c854efcd873fca81, type: 3}
+  lapOne: {fileID: 8300000, guid: 7359170f0731e4840b682e7f1a25a0b5, type: 3}
+  lapTwo: {fileID: 8300000, guid: ffbd6abb792365f4baddf42b0d6fa75a, type: 3}
+  lapThree: {fileID: 8300000, guid: 8d327cf3b54cb464f9d3d48cc168258e, type: 3}
   progressionTriggers: []
 --- !u!65 &3335954520625845055
 BoxCollider:

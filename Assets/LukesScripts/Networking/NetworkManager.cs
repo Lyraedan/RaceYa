@@ -4,6 +4,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -17,9 +18,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     IEnumerator Spawn(Vector3 position)
     {
-        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name.Equals("Test"));
         Spawner.instance.SelectSpawn();
-        playerObject = PhotonNetwork.Instantiate(this.playerObject.name, Spawner.instance.selectedSpawn.position, Quaternion.identity, 0);
+        string prefabName = this.playerObject.name;
+        Debug.Log($"Spawning {prefabName}");
+        playerObject = PhotonNetwork.Instantiate(prefabName, Spawner.instance.selectedSpawn.position, Quaternion.identity, 0);
         playerObject.transform.Rotate(new Vector3(0, 90, 0));
         playerObject.GetComponent<NetworkedUser>().started = false;
     }

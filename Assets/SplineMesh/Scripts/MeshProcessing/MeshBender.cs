@@ -289,36 +289,48 @@ namespace SplineMesh {
         }
 
         private void FillStretch() {
-            var bentVertices = new List<MeshVertex>(source.Vertices.Count);
-            sampleCache.Clear();
-            // for each mesh vertex, we found its projection on the curve
-            foreach (var vert in source.Vertices) {
-                float distanceRate = source.Length == 0 ? 0 : Math.Abs(vert.position.x - source.MinX) / source.Length;
-                CurveSample sample;
-                if (!sampleCache.TryGetValue(distanceRate, out sample)) {
-                    if (!useSpline) {
-                        sample = curve.GetSampleAtDistance(curve.Length * distanceRate);
-                    } else {
-                        float intervalLength = intervalEnd == 0 ? spline.Length - intervalStart : intervalEnd - intervalStart;
-                        float distOnSpline = intervalStart + intervalLength * distanceRate;
-                        if(distOnSpline > spline.Length) {
-                            distOnSpline = spline.Length;
-                            Debug.Log("dist " + distOnSpline + " spline length " + spline.Length + " start " + intervalStart);
+            try
+            {
+                var bentVertices = new List<MeshVertex>(source.Vertices.Count);
+                sampleCache.Clear();
+                // for each mesh vertex, we found its projection on the curve
+                foreach (var vert in source.Vertices)
+                {
+                    float distanceRate = source.Length == 0 ? 0 : Math.Abs(vert.position.x - source.MinX) / source.Length;
+                    CurveSample sample;
+                    if (!sampleCache.TryGetValue(distanceRate, out sample))
+                    {
+                        if (!useSpline)
+                        {
+                            sample = curve.GetSampleAtDistance(curve.Length * distanceRate);
                         }
+                        else
+                        {
+                            float intervalLength = intervalEnd == 0 ? spline.Length - intervalStart : intervalEnd - intervalStart;
+                            float distOnSpline = intervalStart + intervalLength * distanceRate;
+                            if (distOnSpline > spline.Length)
+                            {
+                                distOnSpline = spline.Length;
+                                Debug.Log("dist " + distOnSpline + " spline length " + spline.Length + " start " + intervalStart);
+                            }
 
-                        sample = spline.GetSampleAtDistance(distOnSpline);
+                            sample = spline.GetSampleAtDistance(distOnSpline);
+                        }
+                        sampleCache[distanceRate] = sample;
                     }
-                    sampleCache[distanceRate] = sample;
+
+                    bentVertices.Add(sample.GetBent(vert));
                 }
 
-                bentVertices.Add(sample.GetBent(vert));
-            }
+                MeshUtility.Update(result,
+                    source.Mesh,
+                    source.Triangles,
+                    bentVertices.Select(b => b.position),
+                    bentVertices.Select(b => b.normal));
+            } catch(Exception e)
+            {
 
-            MeshUtility.Update(result,
-                source.Mesh,
-                source.Triangles,
-                bentVertices.Select(b => b.position),
-                bentVertices.Select(b => b.normal));
+            }
         }
 
 

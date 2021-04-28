@@ -36,7 +36,7 @@ namespace Photon.Pun.Demo.Asteroids
         [Header("Inside Room Panel")]
         public GameObject InsideRoomPanel;
 
-        public Button StartGameButton;
+        public GameObject StartGameButton;
         public GameObject PlayerListEntryPrefab;
         public Transform listRoot;
 

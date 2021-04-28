@@ -38,7 +38,7 @@ public class PositionTracker : MonoBehaviourPunCallbacks
         position = 1;
         foreach (NetworkedUser user in FindObjectsOfType<NetworkedUser>())
         {
-            if (user.nametag.text.Equals(PhotonNetwork.LocalPlayer.NickName))
+            if (user.tag.Equals("Player"))
             {
                 distance = user.DistanceToNextProgressionPoint();
                 myProgression = user.currentLapProgression;
@@ -50,9 +50,26 @@ public class PositionTracker : MonoBehaviourPunCallbacks
                 int theirProgression = user.currentLapProgression;
                 int theirLap = user.currentLap;
 
-                bool increasePosition = (theirDistance < distance && theirLap == myLap && theirProgression == myProgression) ||
+                /*bool increasePosition = (theirDistance < distance && theirLap == myLap && theirProgression == myProgression) ||
                                         (theirProgression > myProgression && theirLap == myLap)
-                                        || theirLap > myLap;
+                                        || theirLap > myLap;*/
+
+                bool increasePosition = false;
+
+                bool theyAreAheadOfMe = theirDistance > distance;
+                bool theyAreALapAhead = theirLap > myLap;
+                bool theyAreProgressedMore = theirProgression > myProgression;
+
+                bool sameLapAsMe = theirLap == myLap;
+                bool sameProgressionAsMe = theirProgression == myProgression;
+
+                // Logic checks
+                if (theyAreALapAhead)
+                    increasePosition = true;
+                else if (sameLapAsMe && theyAreProgressedMore)
+                    increasePosition = true;
+                else if (sameLapAsMe && sameProgressionAsMe && theyAreAheadOfMe)
+                    increasePosition = true;
 
                 Debug.Log("Their distance " + theirDistance + " | " + distance);
                 Debug.Log("Their progression " + theirProgression + " | " + myProgression);

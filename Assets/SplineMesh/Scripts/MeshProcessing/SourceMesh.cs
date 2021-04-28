@@ -116,42 +116,53 @@ namespace SplineMesh {
         }
 
         private void BuildData() {
-            // if the mesh is reversed by scale, we must change the culling of the faces by inversing all triangles.
-            // the mesh is reverse only if the number of resersing axes is impair.
-            bool reversed = scale.x < 0;
-            if (scale.y < 0) reversed = !reversed;
-            if (scale.z < 0) reversed = !reversed;
-            triangles = reversed ? MeshUtility.GetReversedTriangles(Mesh) : Mesh.triangles;
+            try
+            {
+                // if the mesh is reversed by scale, we must change the culling of the faces by inversing all triangles.
+                // the mesh is reverse only if the number of resersing axes is impair.
+                bool reversed = scale.x < 0;
+                if (scale.y < 0) reversed = !reversed;
+                if (scale.z < 0) reversed = !reversed;
+                triangles = reversed ? MeshUtility.GetReversedTriangles(Mesh) : Mesh.triangles;
 
-            // we transform the source mesh vertices according to rotation/translation/scale
-            int i = 0;
-            vertices = new List<MeshVertex>(Mesh.vertexCount);
-            foreach (Vector3 vert in Mesh.vertices) {
-                var transformed = new MeshVertex(vert, Mesh.normals[i++]);
-                //  application of rotation
-                if (rotation != Quaternion.identity) {
-                    transformed.position = rotation * transformed.position;
-                    transformed.normal = rotation * transformed.normal;
+                // we transform the source mesh vertices according to rotation/translation/scale
+                int i = 0;
+                vertices = new List<MeshVertex>(Mesh.vertexCount);
+                foreach (Vector3 vert in Mesh.vertices)
+                {
+                    var transformed = new MeshVertex(vert, Mesh.normals[i++]);
+                    //  application of rotation
+                    if (rotation != Quaternion.identity)
+                    {
+                        transformed.position = rotation * transformed.position;
+                        transformed.normal = rotation * transformed.normal;
+                    }
+                    if (scale != Vector3.one)
+                    {
+                        transformed.position = Vector3.Scale(transformed.position, scale);
+                        transformed.normal = Vector3.Scale(transformed.normal, scale);
+                    }
+                    if (translation != Vector3.zero)
+                    {
+                        transformed.position += translation;
+                    }
+                    vertices.Add(transformed);
                 }
-                if (scale != Vector3.one) {
-                    transformed.position = Vector3.Scale(transformed.position, scale);
-                    transformed.normal = Vector3.Scale(transformed.normal, scale);
-                }
-                if (translation != Vector3.zero) {
-                    transformed.position += translation;
-                }
-                vertices.Add(transformed);
-            }
 
-            // find the bounds along x
-            minX = float.MaxValue;
-            float maxX = float.MinValue;
-            foreach (var vert in vertices) {
-                Vector3 p = vert.position;
-                maxX = Math.Max(maxX, p.x);
-                minX = Math.Min(minX, p.x);
+                // find the bounds along x
+                minX = float.MaxValue;
+                float maxX = float.MinValue;
+                foreach (var vert in vertices)
+                {
+                    Vector3 p = vert.position;
+                    maxX = Math.Max(maxX, p.x);
+                    minX = Math.Min(minX, p.x);
+                }
+                length = Math.Abs(maxX - minX);
+            } catch(Exception e)
+            {
+
             }
-            length = Math.Abs(maxX - minX);
         }
 
         public override bool Equals(object obj) {

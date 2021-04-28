@@ -2297,14 +2297,14 @@ MonoBehaviour:
     rearAxle: 1
     antiRollBar: 1
   steerHelper: 0.5
-  torque: 500
+  torque: 350
   reverseTorque: 250
   brakeTorque: 1500
-  minSteerAngle: 15
-  maxSteerAngle: 30
+  minSteerAngle: 10
+  maxSteerAngle: 20
   antiRollForce: 500
-  downForceValue: 1000
-  turningDownForceValue: 5000
+  downForceValue: 800
+  turningDownForceValue: 4000
   maxSpeed: 150
   maxReverseSpeed: -20
   skidTrail: {fileID: 3061289054248621195, guid: 8e085bc119dacc044ab6cfdf3a40eb77,

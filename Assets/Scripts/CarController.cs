@@ -25,6 +25,8 @@ public class CarController : MonoBehaviour
     public float turnRadius;
     public float rearTrack;
 
+    public NetworkedUser user;
+
     internal float speedKph;
     internal float speedMph;
     private float maxSteer;
@@ -52,6 +54,8 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!user.started || user.finished) return;
+
         //Down force
         var setTorque = Input.GetKey(KeyCode.W) ? torque : 0f;
 

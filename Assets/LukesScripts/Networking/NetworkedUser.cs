@@ -238,6 +238,7 @@ public class NetworkedUser : MonoBehaviour
 
         if (everyoneHasFinished)
         {
+            cam.enabled = false;
             cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
             cam.enabled = true;
         }

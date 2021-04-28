@@ -2303,10 +2303,10 @@ MonoBehaviour:
   minSteerAngle: 10
   maxSteerAngle: 20
   antiRollForce: 500
-  downForceValue: 800
-  turningDownForceValue: 4000
-  maxSpeed: 150
-  maxReverseSpeed: -20
+  downForceValue: 600
+  turningDownForceValue: 3000
+  maxSpeed: 80
+  maxReverseSpeed: -40
   skidTrail: {fileID: 3061289054248621195, guid: 8e085bc119dacc044ab6cfdf3a40eb77,
     type: 3}
   speed: {fileID: 0}
@@ -2379,6 +2379,8 @@ MonoBehaviour:
   maxLaps: 3
   currentLapProgression: 0
   nextProgressionPoint: 1
+  spectating: 0
+  spectatingIndex: 0
   carColour: {r: 0, g: 1, b: 0, a: 1}
   characterColour: {r: 1, g: 0, b: 0, a: 1}
   audioSource: {fileID: 4979854560292473404}

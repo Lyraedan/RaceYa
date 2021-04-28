@@ -53,13 +53,13 @@ public class LapTrigger : MonoBehaviour
                     audioSource.Stop();
                 switch (user.currentLap)
                 {
-                    case 0:
+                    case 1:
                         audioSource.clip = lapOne;
                         break;
-                    case 1:
+                    case 2:
                         audioSource.clip = lapTwo;
                         break;
-                    case 2:
+                    case 3:
                         audioSource.clip = lapThree;
                         break;
                     default:

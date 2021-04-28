@@ -50,10 +50,6 @@ public class PositionTracker : MonoBehaviourPunCallbacks
                 int theirProgression = user.currentLapProgression;
                 int theirLap = user.currentLap;
 
-                /*bool increasePosition = (theirDistance < distance && theirLap == myLap && theirProgression == myProgression) ||
-                                        (theirProgression > myProgression && theirLap == myLap)
-                                        || theirLap > myLap;*/
-
                 bool increasePosition = false;
 
                 bool theyAreAheadOfMe = theirDistance < distance;
@@ -71,15 +67,8 @@ public class PositionTracker : MonoBehaviourPunCallbacks
                 else if (sameLapAsMe && sameProgressionAsMe && theyAreAheadOfMe)
                     increasePosition = true;
 
-                Debug.Log("Their distance " + theirDistance + " | " + distance);
-                Debug.Log("Their progression " + theirProgression + " | " + myProgression);
-                Debug.Log("Their lap " + theirLap + " | " + myLap);
-
                 if (increasePosition)
-                {
-                    Debug.Log($"{user.nametag.text} is ahead! Increasing position");
                     position++;
-                }
             }
         }
         return position;

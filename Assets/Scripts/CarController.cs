@@ -54,7 +54,7 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!user.started || user.finished || !user.IsMine()) return;
+        if (!user.started || user.finished || !user.IsMine() || EnableGlobalOptions.instance.canvas.activeSelf) return;
 
         //Down force
         var setTorque = Input.GetKey(KeyCode.W) ? torque : 0f;

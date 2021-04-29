@@ -33,6 +33,7 @@ public class CameraOrbit : MonoBehaviour
 
     void LateUpdate()
     {
+        if (EnableGlobalOptions.instance.canvas.activeSelf) return;
 
         if (target)
         {

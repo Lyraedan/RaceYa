@@ -58,9 +58,14 @@ namespace Photon.Pun.Demo.Asteroids
             PhotonNetwork.LeaveLobby();
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.Disconnect();
+            StartCoroutine(WaitForDisconnected());
+        }
+
+        IEnumerator WaitForDisconnected()
+        {
+            yield return new WaitUntil(() => !PhotonNetwork.IsConnected);
             PhotonNetwork.LoadLevel(LoadScene);
             MicrophoneController.instance.canvas.gameObject.SetActive(false);
-
         }
     }
 }

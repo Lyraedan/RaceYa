@@ -20,10 +20,8 @@ namespace Photon.Pun.Demo.Asteroids
 
         void Update()
         {
-            Debug.Log("pause script is running");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Debug.Log("esc was pressed!");
                 SetPaused();
             }
         }
@@ -34,14 +32,12 @@ namespace Photon.Pun.Demo.Asteroids
             {
                 //Time.timeScale = 0;
                 PauseMenu.SetActive(true);
-                Debug.Log("paused");
             }
 
             else
             {
                 //Time.timeScale = 1;
                 PauseMenu.SetActive(false);
-                Debug.Log("unpaused");
             }
         }
         public void OptionsButton()
@@ -51,7 +47,6 @@ namespace Photon.Pun.Demo.Asteroids
         }
         public void MainMenu()
         {
-            Debug.Log("the main menu button was pressed");
             PhotonNetwork.LeaveLobby();
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.Disconnect();

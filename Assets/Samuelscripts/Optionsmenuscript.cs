@@ -13,6 +13,8 @@ public class Optionsmenuscript : MonoBehaviour
     public Dropdown textureDropdown;
     public Dropdown qualityDropdown;
     public Dropdown aaDropdown;
+    public Slider Audio;
+    public AudioMixer MasterMix;
 
     private void Start()
     {
@@ -40,6 +42,7 @@ public class Optionsmenuscript : MonoBehaviour
         Resolution.RefreshShownValue();
 
     }
+
 
     public void SetAntiAliasing(int aaIndex)
     {
@@ -71,5 +74,20 @@ public class Optionsmenuscript : MonoBehaviour
     {
         Debug.Log("texture quality is " + QualitySettings.masterTextureLimit);
         Debug.Log(textureDropdown.value);
-    }    
+    }
+    
+    public void MasterVolume(float masterLevel)
+    {
+        MasterMix.SetFloat("MasterMix", masterLevel);
+    }
+
+    public void SetMusicLvl (float musicLvl)
+    {
+        MasterMix.SetFloat("Music", musicLvl);
+    }
+
+    public void SetSFXLevel(float sfxlevel)
+    {
+        MasterMix.SetFloat("SoundEffects", sfxlevel);
+    }
 }

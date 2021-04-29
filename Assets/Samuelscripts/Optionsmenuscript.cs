@@ -85,4 +85,9 @@ public class Optionsmenuscript : MonoBehaviour
     {
         MasterMix.SetFloat("Music", musicLvl);
     }
+
+    public void SetSFXLevel(float sfxlevel)
+    {
+        MasterMix.SetFloat("SoundEffects", sfxlevel);
+    }
 }

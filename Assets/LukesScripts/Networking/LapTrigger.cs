@@ -33,8 +33,14 @@ public class LapTrigger : MonoBehaviour
             progressionTriggers[i].progressionID = i;
         }
         audioSource.clip = lapOne;
+        //GetPercentage(jukebox.volume, slider.maxValue) * Settings.instance.GetMasterVolume();
         audioSource.loop = true;
         audioSource.Play();
+    }
+
+    private void Update()
+    {
+        audioSource.volume = (AudioManager.instance.GetMasterVolume() * 0.25f) / 1f;
     }
 
     private void OnTriggerEnter(Collider other)

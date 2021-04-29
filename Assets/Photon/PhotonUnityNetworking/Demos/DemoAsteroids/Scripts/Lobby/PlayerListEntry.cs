@@ -89,13 +89,6 @@ namespace Photon.Pun.Demo.Asteroids
                 Hashtable initialProps = new Hashtable() { { AsteroidsGame.PLAYER_READY, isPlayerReady }, { AsteroidsGame.PLAYER_LIVES, AsteroidsGame.PLAYER_MAX_LIVES } };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
                 PhotonNetwork.LocalPlayer.SetScore(0);
-
-                /*
-                PlayerReadyButton.onClick.AddListener(() =>
-                {
-                    ReadyUp();
-                });
-                */
             }
         }
 

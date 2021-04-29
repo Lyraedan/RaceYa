@@ -200,6 +200,7 @@ public class NetworkedUser : MonoBehaviour
                 lapCounter.text = "Race finished";
                 progressionCounter.text = string.Empty;
 
+                audioSource.volume = (audioSource.volume * 1f) * AudioManager.instance.GetMasterVolume();
                 audioSource.clip = finishedSound;
                 audioSource.loop = true;
                 audioSource.Play();

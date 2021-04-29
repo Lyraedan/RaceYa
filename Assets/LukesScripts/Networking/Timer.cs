@@ -22,6 +22,11 @@ public class Timer : MonoBehaviour
         StartTimer();
     }
 
+    public void Update()
+    {
+        sound.volume = (AudioManager.instance.GetMasterVolume() * 0.5f) / 1f;
+    }
+
     public void StartTimer()
     {
         StartCoroutine(Countdown());

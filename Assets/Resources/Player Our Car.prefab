@@ -889,6 +889,7 @@ MonoBehaviour:
   timerTwo: {fileID: 21300000, guid: 1403da9f5e6b2a545b55bddd3457a192, type: 3}
   timerOne: {fileID: 21300000, guid: 54828a782584544429dcabd3a4857120, type: 3}
   timerGo: {fileID: 21300000, guid: 0a073ce27c9263b438285c74072572d9, type: 3}
+  sound: {fileID: 0}
 --- !u!1 &3113874694286020595
 GameObject:
   m_ObjectHideFlags: 0
@@ -11531,8 +11532,13 @@ MonoBehaviour:
   currentLap: 1
   maxLaps: 3
   currentLapProgression: 0
+  nextProgressionPoint: 1
+  spectating: 0
+  spectatingIndex: 0
   carColour: {r: 0, g: 1, b: 0, a: 1}
   characterColour: {r: 1, g: 0, b: 0, a: 1}
+  audioSource: {fileID: 0}
+  finishedSound: {fileID: 0}
   bodyRenderers:
   - {fileID: 5107931588279749338}
   - {fileID: 3089333478662143834}

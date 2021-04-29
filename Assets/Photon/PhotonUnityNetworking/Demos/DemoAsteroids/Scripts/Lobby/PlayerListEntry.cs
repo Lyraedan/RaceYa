@@ -23,7 +23,7 @@ namespace Photon.Pun.Demo.Asteroids
         public Text PlayerNameText;
 
         public Image PlayerColorImage;
-        public Button PlayerReadyButton;
+        public GameObject PlayerReadyButton;
         public Image PlayerReadyImage;
 
         private int ownerId;
@@ -38,6 +38,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void Start()
         {
+            /*
             if (PhotonNetwork.LocalPlayer.ActorNumber != ownerId)
             {
                 PlayerReadyButton.gameObject.SetActive(false);
@@ -53,6 +54,7 @@ namespace Photon.Pun.Demo.Asteroids
                     ReadyUp();
                 });
             }
+            */
         }
 
         public void ReadyUp()
@@ -76,10 +78,25 @@ namespace Photon.Pun.Demo.Asteroids
 
         #endregion
 
-        public void Initialize(int playerId, string playerName)
+        public void Initialize(int playerId, string playerName, bool isMine)
         {
             ownerId = playerId;
             PlayerNameText.text = playerName;
+
+            PlayerReadyButton.gameObject.SetActive(isMine);
+            if(isMine)
+            {
+                Hashtable initialProps = new Hashtable() { { AsteroidsGame.PLAYER_READY, isPlayerReady }, { AsteroidsGame.PLAYER_LIVES, AsteroidsGame.PLAYER_MAX_LIVES } };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
+                PhotonNetwork.LocalPlayer.SetScore(0);
+
+                /*
+                PlayerReadyButton.onClick.AddListener(() =>
+                {
+                    ReadyUp();
+                });
+                */
+            }
         }
 
         private void OnPlayerNumberingChanged()
@@ -95,7 +112,7 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void SetPlayerReady(bool playerReady)
         {
-            PlayerReadyButton.GetComponentInChildren<Text>().text = playerReady ? "Ready!" : "Ready?";
+            //PlayerReadyButton.GetComponentInChildren<Text>().text = playerReady ? "Ready!" : "Ready?";
             PlayerReadyImage.enabled = playerReady;
         }
     }

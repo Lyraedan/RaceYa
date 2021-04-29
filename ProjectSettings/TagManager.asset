@@ -7,6 +7,8 @@ TagManager:
   - OtherPlayer
   - Spawn
   - EndCamera
+  - MainMenu
+  - PauseMenu
   layers:
   - Default
   - TransparentFX

@@ -42,9 +42,17 @@ namespace Photon.Pun.Demo.Asteroids
         }
         public void OptionsButton()
         {
-            OptionsMenu.SetActive(true);
+            //OptionsMenu.SetActive(true);
+            EnableGlobalOptions.instance.OpenOptions();
             PauseMenu.SetActive(false);
         }
+
+        public void CloseOptions()
+        {
+            PauseMenu.SetActive(true);
+            EnableGlobalOptions.instance.CloseOptions();
+        }
+
         public void MainMenu()
         {
             PhotonNetwork.LeaveLobby();

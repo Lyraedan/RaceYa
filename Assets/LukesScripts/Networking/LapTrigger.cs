@@ -40,7 +40,7 @@ public class LapTrigger : MonoBehaviour
 
     private void Update()
     {
-        audioSource.volume = (AudioManager.instance.GetMasterVolume() * 0.25f) / 1f;
+        audioSource.volume = (AudioManager.instance.GetMasterVolume() * AudioManager.instance.GetMusicVolume()) / 1f;
     }
 
     private void OnTriggerEnter(Collider other)

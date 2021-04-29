@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class AudioManager : MonoBehaviour
 {
 
-    public Slider slider;
-    [Range(0, 1)] private float masterVolume = 1f;
+    public Slider masterSlider, musicSlider, sfxSlider;
 
     public static AudioManager instance;
 
@@ -19,17 +18,19 @@ public class AudioManager : MonoBehaviour
             Destroy(this);
     }
 
-    private void Start()
+    public float GetSfxVolume()
     {
-        slider.onValueChanged.AddListener(val =>
-        {
-            masterVolume = slider.value;
-        });
+        return sfxSlider.value;
+    }
+
+    public float GetMusicVolume()
+    {
+        return musicSlider.value;
     }
 
     public float GetMasterVolume()
     {
-        return masterVolume;
+        return masterSlider.value;
     }
 
 }

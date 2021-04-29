@@ -8,6 +8,6 @@ public class MenuMusic : MonoBehaviour
 
     private void Update()
     {
-        input.volume = (AudioManager.instance.GetMasterVolume() * 0.25f) / 1f;
+        input.volume = (AudioManager.instance.GetMasterVolume() * AudioManager.instance.GetMusicVolume()) / 1f;
     }
 }

@@ -56,6 +56,7 @@ namespace Photon.Pun.Demo.Asteroids
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.Disconnect();
             PhotonNetwork.LoadLevel(LoadScene);
+            MicrophoneController.instance.canvas.gameObject.SetActive(false);
 
         }
     }

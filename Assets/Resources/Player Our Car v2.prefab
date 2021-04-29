@@ -741,6 +741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5870864158647802561}
   - component: {fileID: 4979854560292473404}
+  - component: {fileID: 3140700197058031807}
   m_Layer: 0
   m_Name: Victory
   m_TagString: Untagged
@@ -859,6 +860,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3140700197058031807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2834965892186998718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 187c4e19b2dd7e54ab22cba82bab1a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 4979854560292473404}
 --- !u!1 &3476451221340020566
 GameObject:
   m_ObjectHideFlags: 0

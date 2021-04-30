@@ -2314,7 +2314,7 @@ Transform:
   m_GameObject: {fileID: 7740544267126514391}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.0054909, y: 0.37, z: 0.05}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_Children:
   - {fileID: 7745712854543410615}
   - {fileID: 7745806904977078749}
@@ -2384,16 +2384,16 @@ MonoBehaviour:
     rearAxle: 1
     antiRollBar: 1
   steerHelper: 0.5
-  torque: 350
-  reverseTorque: 250
+  torque: 400
+  reverseTorque: 300
   brakeTorque: 1500
-  minSteerAngle: 10
-  maxSteerAngle: 20
+  minSteerAngle: 12
+  maxSteerAngle: 24
   antiRollForce: 500
-  downForceValue: 600
-  turningDownForceValue: 3000
-  maxSpeed: 80
-  maxReverseSpeed: -40
+  downForceValue: 500
+  turningDownForceValue: 2500
+  maxSpeed: 100
+  maxReverseSpeed: -50
   skidTrail: {fileID: 3061289054248621195, guid: 8e085bc119dacc044ab6cfdf3a40eb77,
     type: 3}
   speed: {fileID: 0}

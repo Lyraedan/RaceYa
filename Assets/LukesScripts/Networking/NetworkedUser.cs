@@ -145,6 +145,13 @@ public class NetworkedUser : MonoBehaviour
                     Spectate(spectatingIndex % players.Length);
                 }
             }
+
+            if(cam == null)
+            {
+                cam.enabled = false;
+                cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
+                cam.enabled = true;
+            }
         }
     }
 
@@ -196,6 +203,7 @@ public class NetworkedUser : MonoBehaviour
         {
             if(view.IsMine)
             {
+                StartCoroutine(WaitForEveryoneToFinish());
                 Debug.Log($"{userID} has finished the race");
                 lapCounter.text = "Race finished";
                 progressionCounter.text = string.Empty;
@@ -274,5 +282,22 @@ public class NetworkedUser : MonoBehaviour
     public bool IsMine()
     {
         return view.IsMine;
+    }
+
+    IEnumerator WaitForEveryoneToFinish()
+    {
+        bool everyoneHasFinished = true;
+        while (!everyoneHasFinished) {
+            var players = FindObjectsOfType<NetworkedUser>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (!players[i].finished)
+                    everyoneHasFinished = false;
+            }
+        }
+        yield return new WaitUntil(() => everyoneHasFinished);
+        cam.enabled = false;
+        cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
+        cam.enabled = true;
     }
 }

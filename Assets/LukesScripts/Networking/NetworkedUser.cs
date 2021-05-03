@@ -137,29 +137,36 @@ public class NetworkedUser : MonoBehaviourPunCallbacks
         }
 
         if (view.IsMine)
-            {
-                positionCounter.text = $"Pos: {PositionTracker.instance.yourPosition}/{PhotonNetwork.PlayerList.Length}";
+        {
+            positionCounter.text = $"Pos: {PositionTracker.instance.yourPosition}/{PhotonNetwork.PlayerList.Length}";
 
-                if (NetworkManager.spectating)
+            if (NetworkManager.spectating)
+            {
+                if (Input.GetKeyDown(KeyCode.A))
                 {
-                    if (Input.GetKeyDown(KeyCode.A))
-                    {
-                        var players = FindObjectsOfType<NetworkedUser>();
-                        NetworkManager.spectatingIndex--;
-                        if (NetworkManager.spectatingIndex < 0)
-                            NetworkManager.spectatingIndex = players.Length - 1;
-                        Spectate(NetworkManager.spectatingIndex);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.D))
-                    {
-                        var players = FindObjectsOfType<NetworkedUser>();
-                        NetworkManager.spectatingIndex++;
-                        if (NetworkManager.spectatingIndex > players.Length - 1)
-                            NetworkManager.spectatingIndex = 0;
-                        Spectate(NetworkManager.spectatingIndex);
-                    }
+                    var players = FindObjectsOfType<NetworkedUser>();
+                    NetworkManager.spectatingIndex--;
+                    if (NetworkManager.spectatingIndex < 0)
+                        NetworkManager.spectatingIndex = players.Length - 1;
+                    Spectate(NetworkManager.spectatingIndex);
+                }
+                else if (Input.GetKeyDown(KeyCode.D))
+                {
+                    var players = FindObjectsOfType<NetworkedUser>();
+                    NetworkManager.spectatingIndex++;
+                    if (NetworkManager.spectatingIndex > players.Length - 1)
+                        NetworkManager.spectatingIndex = 0;
+                    Spectate(NetworkManager.spectatingIndex);
                 }
             }
+        } else
+        {
+            // Stops glitching out
+            body.velocity = Vector3.zero;
+            body.angularVelocity = Vector3.zero;
+            body.angularDrag = 0;
+            body.useGravity = false;
+        }
     }
 
     public void ProgressLap()
@@ -228,7 +235,8 @@ public class NetworkedUser : MonoBehaviourPunCallbacks
                         Spectate(players);
                     }
                 }
-            } else
+            }
+            else
             {
                 if (NetworkManager.spectating)
                 {
@@ -270,7 +278,7 @@ public class NetworkedUser : MonoBehaviourPunCallbacks
             }
             else
             {
-                if(player.ActorNumber != view.OwnerActorNr)
+                if (player.ActorNumber != view.OwnerActorNr)
                     Spectate(NetworkManager.spectatingIndex);
             }
         }
@@ -283,7 +291,7 @@ public class NetworkedUser : MonoBehaviourPunCallbacks
             UI.SetActive(false);
         }
 
-        if(EveryoneHasFinished(players))
+        if (EveryoneHasFinished(players))
         {
             MoveToPodiumView();
             return;
@@ -309,7 +317,7 @@ public class NetworkedUser : MonoBehaviourPunCallbacks
     void Spectate(int playerIndex)
     {
         var players = FindObjectsOfType<NetworkedUser>();
-        if(players[playerIndex].finished)
+        if (players[playerIndex].finished)
         {
             SpectateRandom(players);
             return;
@@ -349,7 +357,7 @@ public class NetworkedUser : MonoBehaviourPunCallbacks
 
     bool EveryoneHasFinished(NetworkedUser[] players)
     {
-        for(int i = 0; i < players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
             if (!players[i].finished)
                 return false;

@@ -10,6 +10,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
 
     public GameObject playerObject;
+    public static int spectatingIndex = 0;
+    public static bool spectating = false;
+    public static Camera spectatorCam;
 
     void Start()
     {

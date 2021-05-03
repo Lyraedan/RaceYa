@@ -17,6 +17,9 @@ public class Timer : MonoBehaviour
 
     public AudioSource sound;
 
+    private int currentRoomCount = 0;
+    private bool started = false;
+
     public void Start()
     {
         StartTimer();
@@ -25,6 +28,10 @@ public class Timer : MonoBehaviour
     public void Update()
     {
         sound.volume = (AudioManager.instance.GetMasterVolume() * AudioManager.instance.GetSfxVolume()) / 1f;
+        if(!started)
+        {
+            currentRoomCount = FindObjectsOfType<NetworkedUser>().Length; // Should never call FindObjectsOfType in Update. Too bad
+        }
     }
 
     public void StartTimer()
@@ -34,7 +41,8 @@ public class Timer : MonoBehaviour
 
     IEnumerator Countdown()
     {
-        yield return new WaitUntil(() => PhotonNetwork.PlayerList.Length >= Spawner.instance.lobbySize);
+        yield return new WaitUntil(() => currentRoomCount >= Spawner.instance.lobbySize);
+        started = true;
         sound.Play();
         timer.sprite = timerThree;
         yield return new WaitForSeconds(1);

@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Pun.Demo.Asteroids;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(PhotonView))]
-public class NetworkedUser : MonoBehaviour
+public class NetworkedUser : MonoBehaviourPunCallbacks
 {
 
     public Camera cam;
@@ -28,8 +29,6 @@ public class NetworkedUser : MonoBehaviour
     public int maxLaps = 3;
     public int currentLapProgression = 0;
     public int nextProgressionPoint = 1;
-    public bool spectating = false;
-    public int spectatingIndex = 0;
     // Has the user finished the race
     public bool finished { get; set; } = false;
     // Has the race started
@@ -102,7 +101,7 @@ public class NetworkedUser : MonoBehaviour
         return Mathf.Round(Vector3.Distance(progressionPoint, gameObject.transform.position));
     }
 
-    [Obsolete]
+    [Obsolete("No longer in use")]
     public float DistanceToProgressionPoint(int id)
     {
         int index = id % LapTrigger.instance.progressionTriggers.Count;
@@ -122,37 +121,45 @@ public class NetworkedUser : MonoBehaviour
 
     private void Update()
     {
-        worldspaceCanvas.transform.LookAt(cam.transform.position);
-        worldspaceCanvas.transform.Rotate(new Vector3(0, 180, 0));
-        worldspaceCanvas.gameObject.SetActive(Vector3.Distance(transform.position, worldspaceCanvas.transform.position) < 3);
+        if (cam == null)
+            Spectate(FindObjectsOfType<NetworkedUser>());
+
+        try
+        {
+            worldspaceCanvas.transform.LookAt(cam.transform.position);
+            worldspaceCanvas.transform.Rotate(new Vector3(0, 180, 0));
+            worldspaceCanvas.gameObject.SetActive(Vector3.Distance(transform.position, worldspaceCanvas.transform.position) < 3);
+        }
+        catch (Exception e)
+        {
+            // If something goes wrong
+            Spectate(FindObjectsOfType<NetworkedUser>());
+        }
 
         if (view.IsMine)
-        {
-            positionCounter.text = $"Pos: {PositionTracker.instance.yourPosition}/{PhotonNetwork.PlayerList.Length}";
-
-            if(spectating)
             {
-                if(Input.GetKeyDown(KeyCode.A))
+                positionCounter.text = $"Pos: {PositionTracker.instance.yourPosition}/{PhotonNetwork.PlayerList.Length}";
+
+                if (NetworkManager.spectating)
                 {
-                    var players = FindObjectsOfType<NetworkedUser>();
-                    spectatingIndex--;
-                    Spectate(spectatingIndex % players.Length);
-                }
-                else if(Input.GetKeyDown(KeyCode.D))
-                {
-                    var players = FindObjectsOfType<NetworkedUser>();
-                    spectatingIndex++;
-                    Spectate(spectatingIndex % players.Length);
+                    if (Input.GetKeyDown(KeyCode.A))
+                    {
+                        var players = FindObjectsOfType<NetworkedUser>();
+                        NetworkManager.spectatingIndex--;
+                        if (NetworkManager.spectatingIndex < 0)
+                            NetworkManager.spectatingIndex = players.Length - 1;
+                        Spectate(NetworkManager.spectatingIndex);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.D))
+                    {
+                        var players = FindObjectsOfType<NetworkedUser>();
+                        NetworkManager.spectatingIndex++;
+                        if (NetworkManager.spectatingIndex > players.Length - 1)
+                            NetworkManager.spectatingIndex = 0;
+                        Spectate(NetworkManager.spectatingIndex);
+                    }
                 }
             }
-
-            if(cam == null)
-            {
-                cam.enabled = false;
-                cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
-                cam.enabled = true;
-            }
-        }
     }
 
     public void ProgressLap()
@@ -180,18 +187,12 @@ public class NetworkedUser : MonoBehaviour
     [PunRPC]
     public void IncreaseLapCounter()
     {
-        if (finished)
-        {
-            if(view.IsMine)
-                SpectateOrPodium();
-            return;
-        }
         currentLap++;
         finished = currentLap > maxLaps;
-        if(view.IsMine)
+        if (view.IsMine)
         {
             Debug.Log("Resetting progression triggers");
-            foreach(LapProgressionTrigger progression in LapTrigger.instance.progressionTriggers)
+            foreach (LapProgressionTrigger progression in LapTrigger.instance.progressionTriggers)
             {
                 progression.gameObject.SetActive(true);
             }
@@ -201,9 +202,11 @@ public class NetworkedUser : MonoBehaviour
 
         if (finished)
         {
-            if(view.IsMine)
+            var players = FindObjectsOfType<NetworkedUser>();
+            Debug.Log($"{userID} finished");
+
+            if (view.IsMine)
             {
-                StartCoroutine(WaitForEveryoneToFinish());
                 Debug.Log($"{userID} has finished the race");
                 lapCounter.text = "Race finished";
                 progressionCounter.text = string.Empty;
@@ -222,60 +225,98 @@ public class NetworkedUser : MonoBehaviour
                         gameObject.transform.position = placement.gameObject.transform.position;
                         gameObject.transform.rotation = placement.gameObject.transform.rotation;
                         body.isKinematic = true;
-                        cam.enabled = false;
-                        SpectateOrPodium();
+                        Spectate(players);
+                    }
+                }
+            } else
+            {
+                if (NetworkManager.spectating)
+                {
+                    // If the person we are spectating finished
+                    if (players[NetworkManager.spectatingIndex].finished)
+                    {
+                        bool everyoneHasFinished = EveryoneHasFinished(players);
+                        if (everyoneHasFinished)
+                        {
+                            MoveToPodiumView();
+                        }
+                        else
+                        {
+                            SpectateRandom(players);
+                        }
                     }
                 }
             }
         }
     }
 
-    void SpectateOrPodium()
+    public override void OnPlayerLeftRoom(Player player)
     {
-        if (!spectating)
+        if (!NetworkManager.spectating)
+            return;
+
+        var players = FindObjectsOfType<NetworkedUser>();
+        bool everyoneFinished = EveryoneHasFinished(players);
+        if (everyoneFinished)
+        {
+            MoveToPodiumView();
+        }
+        else
+        {
+            // If our spectating index goes out of range
+            if (NetworkManager.spectatingIndex >= players.Length)
+            {
+                SpectateRandom(players);
+            }
+            else
+            {
+                if(player.ActorNumber != view.OwnerActorNr)
+                    Spectate(NetworkManager.spectatingIndex);
+            }
+        }
+    }
+
+    void Spectate(NetworkedUser[] players)
+    {
+        if (!NetworkManager.spectating)
         {
             UI.SetActive(false);
         }
 
-        bool everyoneHasFinished = true;
-        var players = FindObjectsOfType<NetworkedUser>();
-        for (int i = 0; i < players.Length; i++)
+        if(EveryoneHasFinished(players))
         {
-            if (!players[i].finished)
-                everyoneHasFinished = false;
+            MoveToPodiumView();
+            return;
         }
 
-        if (everyoneHasFinished)
-        {
-            cam.enabled = false;
-            cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
-            cam.enabled = true;
-        }
-        else
-        {
-            if (spectating)
-                return;
+        if (NetworkManager.spectating)
+            return;
 
-            int index = UnityEngine.Random.Range(0, players.Length);
-            while (players[index].finished)
-            {
-                index = UnityEngine.Random.Range(0, players.Length);
-            }
-            Spectate(index);
-            spectating = true;
+        SpectateRandom(players);
+        NetworkManager.spectating = true;
+    }
+
+    void SpectateRandom(NetworkedUser[] players)
+    {
+        int index = UnityEngine.Random.Range(0, players.Length);
+        while (players[index].finished)
+        {
+            index = UnityEngine.Random.Range(0, players.Length);
         }
+        Spectate(index);
     }
 
     void Spectate(int playerIndex)
     {
-        cam.enabled = false;
         var players = FindObjectsOfType<NetworkedUser>();
-        while (players[playerIndex % players.Length].finished)
+        if(players[playerIndex].finished)
         {
-            playerIndex++;
+            SpectateRandom(players);
+            return;
         }
-        cam = players[playerIndex % players.Length].cam;
-        spectatingIndex = playerIndex;
+        DisableCam();
+        cam = players[playerIndex].cam;
+        NetworkManager.spectatingIndex = playerIndex;
         cam.enabled = true;
     }
 
@@ -284,20 +325,35 @@ public class NetworkedUser : MonoBehaviour
         return view.IsMine;
     }
 
-    IEnumerator WaitForEveryoneToFinish()
+    /// <summary>
+    /// Try to disable the camera - Takes into account if a player left
+    /// </summary>
+    void DisableCam()
     {
-        bool everyoneHasFinished = true;
-        while (!everyoneHasFinished) {
-            var players = FindObjectsOfType<NetworkedUser>();
-            for (int i = 0; i < players.Length; i++)
-            {
-                if (!players[i].finished)
-                    everyoneHasFinished = false;
-            }
+        try
+        {
+            cam.enabled = false;
         }
-        yield return new WaitUntil(() => everyoneHasFinished);
-        cam.enabled = false;
+        catch (Exception e)
+        {
+
+        }
+    }
+
+    void MoveToPodiumView()
+    {
+        DisableCam();
         cam = GameObject.FindGameObjectWithTag("EndCamera").GetComponent<Camera>();
         cam.enabled = true;
+    }
+
+    bool EveryoneHasFinished(NetworkedUser[] players)
+    {
+        for(int i = 0; i < players.Length; i++)
+        {
+            if (!players[i].finished)
+                return false;
+        }
+        return true;
     }
 }
